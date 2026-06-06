@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitemap — xnui</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbfbfb;
+      --border: rgba(0, 0, 0, 0.04);
+      --text-main: #000000;
+      --text-muted: rgba(0, 0, 0, 0.45);
+      --accent: #0070f3;
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Noise overlay matching core app */
+    .noise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.015;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      text-align: left;
+    }
+
+    .brand {
+      font-weight: 600;
+      font-size: 1.25rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .directory {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+      margin-bottom: 2rem;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem;
+      border-radius: 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+
+    .item:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+
+    .item:hover {
+      background: #fbfbfb;
+      border-color: var(--border);
+      transform: translateY(-1px);
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.25rem;
+    }
+
+    .item-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .item-hash {
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(0,0,0,0.03);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .item-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.4;
+    }
+
+    .item-meta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .formats-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .formats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .format-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+      text-align: center;
+    }
+
+    .format-btn:hover {
+      border-color: var(--accent);
+      background: rgba(0, 112, 243, 0.02);
+    }
+
+    .format-ext {
+      font-family: monospace;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      margin-bottom: 0.15rem;
+    }
+
+    .format-name {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  
+  <main>
+    <header>
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span>xnui</span>
+      </div>
+      <h1>Website Sitemap</h1>
+      <p class="subtitle">Search crawlable visual hierarchy and structured data directories.</p>
+    </header>
+
+    <section class="directory">
+      <!-- Item 1 -->
+      <a href="/#/home" class="item">
+        <div class="item-header">
+          <span class="item-title">Studio Home</span>
+          <span class="item-hash">#/home</span>
+        </div>
+        <p class="item-desc">Primary introduction runway displaying gorgeous layout system templates, client project case studies, and responsive interface blueprint drafts.</p>
+        <div class="item-meta">
+          <span>Priority: 1.0</span>
+          <span>Update: Weekly</span>
+        </div>
+      </a>
+
+      <!-- Item 2 -->
+      <a href="/#/services" class="item">
+        <div class="item-header">
+          <span class="item-title">Boutique Services</span>
+          <span class="item-hash">#/services</span>
+        </div>
+        <p class="item-desc">Premium application interface strategies, front-end visual components, micro-simulation configurations, and structural design system frameworks.</p>
+        <div class="item-meta">
+          <span>Priority: 0.8</span>
+          <span>Update: Weekly</span>
+        </div>
+      </a>
+
+      <!-- Item 3 -->
+      <a href="/#/laboratory" class="item">
+        <div class="item-header">
+          <span class="item-title">Motion Laboratory</span>
+          <span class="item-hash">#/laboratory</span>
+        </div>
+        <p class="item-desc">Dynamic Verlet cloth simulations, interactive responsive widgets, physics-based UI components, and real-time physical canvas playground environments.</p>
+        <div class="item-meta">
+          <span>Priority: 0.9</span>
+          <span>Update: Weekly</span>
+        </div>
+      </a>
+
+      <!-- Item 4 -->
+      <a href="/#/faq" class="item">
+        <div class="item-header">
+          <span class="item-title">Information & FAQ</span>
+          <span class="item-hash">#/faq</span>
+        </div>
+        <p class="item-desc">Comprehensive responses and tactical breakdowns explaining engagement methodologies, budget ranges, milestones, and tech stack details.</p>
+        <div class="item-meta">
+          <span>Priority: 0.5</span>
+          <span>Update: Monthly</span>
+        </div>
+      </a>
+
+      <!-- Item 5 -->
+      <a href="/#/contact" class="item">
+        <div class="item-header">
+          <span class="item-title">Spam-Filtered Contact</span>
+          <span class="item-hash">#/contact</span>
+        </div>
+        <p class="item-desc">Secured bot containment layer using dynamic mathematics addition challenges to successfully unlock direct communications and reveal direct emails safely.</p>
+        <div class="item-meta">
+          <span>Priority: 0.7</span>
+          <span>Update: Monthly</span>
+        </div>
+      </a>
+    </section>
+
+    <h2 class="formats-label">Other Formats</h2>
+    <section class="formats-grid">
+      <a href="/sitemap.xml" class="format-btn">
+        <span class="format-ext">XML</span>
+        <span class="format-name">Search Engines</span>
+      </a>
+      <a href="/sitemap.json" class="format-btn">
+        <span class="format-ext">JSON</span>
+        <span class="format-name">Structured Schema</span>
+      </a>
+      <a href="/sitemap.txt" class="format-btn">
+        <span class="format-ext">TXT</span>
+        <span class="format-name">Plain Url List</span>
+      </a>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Tactile Studio. Return to <a href="/#/home">Studio Home</a>.</p>
+    </footer>
+  </main>
+</body>
+</html>

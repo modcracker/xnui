@@ -1,0 +1,51 @@
+{
+  "name": "xnui.com Sitemap",
+  "domain": "https://xnui.com",
+  "generated": "2026-06-06",
+  "statistics": {
+    "total_pages": 5,
+    "last_updated": "2026-06-06T00:00:00Z"
+  },
+  "urls": [
+    {
+      "url": "https://xnui.com/",
+      "pageName": "Studio Home",
+      "hashRoute": "#/home",
+      "priority": 1.0,
+      "changeFrequency": "weekly",
+      "description": "xnui.com main landing page, elegant layout systems and tactile interaction presentation."
+    },
+    {
+      "url": "https://xnui.com/#/services",
+      "pageName": "Services",
+      "hashRoute": "#/services",
+      "priority": 0.8,
+      "changeFrequency": "weekly",
+      "description": "Boutique interactive components, interface blueprint designs, and product engineering profiles."
+    },
+    {
+      "url": "https://xnui.com/#/laboratory",
+      "pageName": "Laboratory",
+      "hashRoute": "#/laboratory",
+      "priority": 0.9,
+      "changeFrequency": "weekly",
+      "description": "Physical Verlet cloth simulations, interactive responsive widgets, and motion playgrounds."
+    },
+    {
+      "url": "https://xnui.com/#/faq",
+      "pageName": "FAQ",
+      "hashRoute": "#/faq",
+      "priority": 0.5,
+      "changeFrequency": "monthly",
+      "description": "Frequently asked questions regarding client integration, budgets, timelines, and technical frameworks."
+    },
+    {
+      "url": "https://xnui.com/#/contact",
+      "pageName": "Contact Us",
+      "hashRoute": "#/contact",
+      "priority": 0.7,
+      "changeFrequency": "monthly",
+      "description": "Spam-filtered human verification check to reveal direct support address info@xnui.com."
+    }
+  ]
+}

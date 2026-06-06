@@ -1,0 +1,6 @@
+{
+  "name": "xnui | Premium Interface Design",
+  "description": "Boutique design studio specializing in elegant layout systems and tactile digital interfaces.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

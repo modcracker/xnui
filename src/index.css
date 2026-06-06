@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-electric-blue: #0070f3;
+  --color-primary-red: #e63946;
+  --color-primary-orange: #f77f00;
+  --color-primary-yellow: #fcbf49;
+  --color-background: #fbfbfb;
+  --color-foreground: #111111;
+  --color-muted: #888888;
+  --color-border: #eeeeee;
+
+  --animate-shimmer: shimmer 2s infinite linear;
+  --animate-scanline: scanline 8s infinite linear;
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes scanline {
+    0% {
+      transform: translateY(0);
+      opacity: 0.1;
+    }
+    5% {
+      opacity: 0.8;
+    }
+    95% {
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(420px);
+      opacity: 0.1;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  html, body {
+    @apply overflow-x-hidden m-0 p-0;
+  }
+  body {
+    @apply bg-[var(--color-background)] text-[var(--color-foreground)] font-sans antialiased selection:bg-electric-blue selection:text-white;
+  }
+}
+
+@layer utilities {
+  .noise-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.012;
+    pointer-events: none;
+    z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .glass {
+    @apply bg-white/40 backdrop-blur-xl border border-black/[0.04];
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-black/10 rounded-full hover:bg-black/20 transition-colors;
+}
