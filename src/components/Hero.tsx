@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import MachineCore from "./MachineCore";
+import ParticleLayer from "./ParticleLayer";
+
+// @ts-ignore
+import artBlueprint from "../assets/images/art_parametric_blueprint_1781396116015.jpg";
 
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -31,16 +35,35 @@ export default function Hero() {
   const scaleMachine = useTransform(scrollY, [0, 600], [1, 0.84]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0.98]);
 
+  // Slow parallax scrolling drift for the background artistic blueprint
+  const yBlueprintShift = useTransform(scrollY, [0, 1000], [0, 150]);
+
   // Premium transitions easing
   const customEase = [0.19, 1, 0.22, 1] as const;
 
   return (
     <section id="hero" className="relative min-h-[92vh] flex flex-col justify-center items-center px-6 py-12 md:py-20 overflow-hidden bg-[#fbfbfb]">
+      {/* High-fidelity full-screen artistic mechanical blueprint backdrop */}
+      <motion.div 
+        style={{ y: yBlueprintShift }}
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.065] mix-blend-multiply overflow-hidden select-none"
+      >
+        <img 
+          src={artBlueprint} 
+          alt="" 
+          className="w-full h-full object-cover filter saturate-[0.15] contrast-[1.05]" 
+          referrerPolicy="no-referrer"
+        />
+      </motion.div>
+
       {/* Structural Minimal Grid Background */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(to_right,rgba(0,0,0,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.15)_1px,transparent_1px)] bg-[size:40px_40px] md:bg-[size:60px_60px]" />
       <div className="absolute inset-y-0 left-1/4 w-[1px] bg-black/[0.015] pointer-events-none" />
       <div className="absolute inset-y-0 right-1/4 w-[1px] bg-black/[0.015] pointer-events-none" />
       <div className="absolute inset-x-0 top-1/3 h-[1px] bg-black/[0.015] pointer-events-none" />
+
+      {/* Subtle coordinate particle-blueprint interactive layer */}
+      <ParticleLayer />
 
       {/* Ambient Radial Soft Glow */}
       <motion.div 

@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Check, Copy, RefreshCw, ArrowLeft, Mail, ShieldCheck, HelpCircle } from "lucide-react";
 
+// @ts-ignore
+import artBlueprint from "../assets/images/art_parametric_blueprint_1781396116015.jpg";
+
 export default function Contact() {
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
@@ -58,7 +61,18 @@ export default function Contact() {
   const customEase = [0.19, 1, 0.22, 1] as const;
 
   return (
-    <div className="py-12 md:py-24 px-6 relative w-full flex flex-col items-center justify-center min-h-[75vh]">
+    <div className="py-12 md:py-24 px-6 relative w-full flex flex-col items-center justify-center min-h-[75vh] overflow-hidden">
+      {/* High-fidelity full-screen artistic mechanical blueprint backdrop */}
+      <div className="absolute left-0 right-0 top-0 bottom-0 pointer-events-none opacity-[0.038] select-none z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#ffffff] via-transparent to-[#ffffff] z-10" />
+        <img 
+          src={artBlueprint} 
+          alt="" 
+          className="w-full h-full object-cover filter saturate-50 contrast-125"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+
       {/* Structural Minimal Grid Background specifically for the contact page */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(to_right,rgba(0,0,0,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.15)_1px,transparent_1px)] bg-[size:30px_30px]" />
       

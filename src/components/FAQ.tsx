@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MessageSquare, Cpu, Terminal, ArrowDownRight } from "lucide-react";
 
+// @ts-ignore
+import artObsidian from "../assets/images/art_obsidian_tactile_1781396100697.jpg";
+
 interface FAQItem {
   id: string;
   question: string;
@@ -74,6 +77,30 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="py-20 md:py-28 bg-[#ffffff] relative overflow-hidden border-t border-black/[0.02]">
+      {/* High-fidelity full-screen artistic mechanical backdrop */}
+      <div className="absolute left-0 bottom-0 top-0 w-full md:w-1/3 pointer-events-none opacity-[0.025] select-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white z-10" />
+        <img 
+          src={artObsidian} 
+          alt="" 
+          className="w-full h-full object-cover filter saturate-0 contrast-125"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+
+      {/* Invisible semantic metadata for search engines and AI crawl systems (FAQPage Schema) */}
+      <div className="hidden" itemScope itemType="https://schema.org/FAQPage">
+        {faqs.map((faq) => (
+          <div key={faq.id} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+            <meta itemProp="name" content={faq.question} />
+            <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+              <meta itemProp="text" content={faq.answer} />
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Structural accent background grids */}
       <div className="absolute right-0 top-0 w-1/3 h-full border-l border-black/[0.02] pointer-events-none" />
       <div className="absolute left-12 bottom-12 w-64 h-64 border border-black/[0.015] rounded-full pointer-events-none" />

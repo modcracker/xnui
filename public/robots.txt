@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tactile.studio/sitemap.xml
+# Standard Search & AI Search Bot Maps
+Sitemap: https://xnui.com/sitemap.xml
+Sitemap: https://xnui.com/sitemap.html
+Sitemap: https://xnui.com/sitemap.json
+Sitemap: https://xnui.com/sitemap.txt

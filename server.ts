@@ -62,6 +62,84 @@ async function startServer() {
     }
   });
 
+  // Dynamic Sitemap Endpoints
+  const getSitemapPaths = () => [
+    { path: "#/home", lastmod: "2026-06-13", changefreq: "daily", priority: "1.0" },
+    { path: "#/services", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
+    { path: "#/laboratory", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
+    { path: "#/about", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+    { path: "#/partnership", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+    { path: "#/faq", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.7" },
+    { path: "#/contact", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+    { path: "#/privacy", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
+    { path: "#/terms", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
+  ];
+
+  app.get("/sitemap.xml", (req, res) => {
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+    const host = req.get("host") || "localhost:3000";
+    const origin = `${protocol}://${host}`;
+    const paths = getSitemapPaths();
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${paths.map(node => `  <url>
+    <loc>${origin}/${node.path}</loc>
+    <lastmod>${node.lastmod}</lastmod>
+    <changefreq>${node.changefreq}</changefreq>
+    <priority>${node.priority}</priority>
+  </url>`).join("\n")}
+</urlset>`;
+
+    res.header("Content-Type", "application/xml");
+    res.send(xml);
+  });
+
+  app.get("/sitemap.json", (req, res) => {
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+    const host = req.get("host") || "localhost:3000";
+    const origin = `${protocol}://${host}`;
+    const paths = getSitemapPaths();
+
+    res.json({
+      origin,
+      timestamp: new Date().toISOString(),
+      nodes: paths.map(node => ({
+        url: `${origin}/${node.path}`,
+        lastmod: node.lastmod,
+        changefreq: node.changefreq,
+        priority: parseFloat(node.priority)
+      }))
+    });
+  });
+
+  app.get("/sitemap.txt", (req, res) => {
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+    const host = req.get("host") || "localhost:3000";
+    const origin = `${protocol}://${host}`;
+    const paths = getSitemapPaths();
+    const txt = paths.map(node => `${origin}/${node.path}`).join("\n");
+
+    res.header("Content-Type", "text/plain");
+    res.send(txt);
+  });
+
+  // Robots.txt directing crawlers to dynamic sitemap
+  app.get("/robots.txt", (req, res) => {
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+    const host = req.get("host") || "localhost:3000";
+    const origin = `${protocol}://${host}`;
+
+    const txt = `User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: ${origin}/sitemap.xml`;
+
+    res.header("Content-Type", "text/plain");
+    res.send(txt);
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

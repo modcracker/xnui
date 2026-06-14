@@ -1,6 +1,11 @@
-import { useRef, useState, MouseEvent } from "react";
+import { useRef, useState, MouseEvent, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight, Beaker, Layers, Eye } from "lucide-react";
+
+// @ts-ignore
+import artIndustrial from "../assets/images/art_industrial_mechanics_1781396069282.jpg";
+// @ts-ignore
+import artObsidian from "../assets/images/art_obsidian_tactile_1781396100697.jpg";
 
 const experiments = [
   {
@@ -181,6 +186,17 @@ function VectorBlueprint({ activeId }: { activeId: string }) {
 export default function Laboratory() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeId, setActiveId] = useState("01");
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#/laboratory' || hash === '#laboratory' || hash === '#/lab' || hash === '#lab') {
+      setTimeout(() => {
+        const el = document.getElementById('lab');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    }
+  }, []);
+
   const activeExp = experiments.find(e => e.id === activeId) || experiments[0];
 
   // Tactical Tilt setup for immersive parallax effect
@@ -215,7 +231,19 @@ export default function Laboratory() {
   const customEase = [0.19, 1, 0.22, 1] as const;
 
   return (
-    <section id="lab" className="py-20 md:py-28 bg-[#fbfbfb] relative border-t border-black/[0.02]" ref={containerRef}>
+    <section id="lab" className="py-20 md:py-28 bg-[#fbfbfb] relative border-t border-black/[0.02] overflow-hidden" ref={containerRef}>
+      {/* Subtle titanium mechanics background underlay */}
+      <div className="absolute left-0 bottom-0 top-0 w-full md:w-1/2 pointer-events-none opacity-[0.03] select-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#fbfbfb] via-transparent to-[#fbfbfb] z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fbfbfb] via-transparent to-[#fbfbfb] z-10" />
+        <img 
+          src={artIndustrial} 
+          alt="" 
+          className="w-full h-full object-cover filter saturate-50 contrast-125 rotate-90"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Header Block */}
@@ -265,7 +293,7 @@ export default function Laboratory() {
                       )}
                     </AnimatePresence>
                     
-                    <div className="md:col-span-5">
+                    <div className="md:col-span-4">
                       <span className="font-sans text-xs text-[#0070f3] font-medium block mb-1">
                         {exp.category}
                       </span>
@@ -284,11 +312,11 @@ export default function Laboratory() {
                       </p>
                     </div>
                     
-                    <div className="md:col-span-2 flex justify-end items-center gap-4">
+                    <div className="md:col-span-3 flex justify-end items-center gap-3 shrink-0">
                       <span className="px-3 py-1.5 rounded-full bg-black/[0.03] text-xs font-sans text-black/50 font-medium whitespace-nowrap">
                         {exp.tag}
                       </span>
-                      <div className={`w-8 h-8 rounded-full border border-black/5 flex items-center justify-center transition-all duration-300 ${
+                      <div className={`w-8 h-8 rounded-full border border-black/5 flex items-center justify-center transition-all duration-300 flex-shrink-0 ${
                         isActive ? "bg-black text-white" : "text-black/35 group-hover:border-black/20 group-hover:text-black"
                       }`}>
                         <ArrowUpRight size={14} />
@@ -315,6 +343,17 @@ export default function Laboratory() {
               style={{ rotateX, rotateY }}
               className="w-full h-full rounded-2xl md:rounded-[1.75rem] border border-black/[0.05] bg-black text-white p-6 md:p-8 flex flex-col justify-between overflow-hidden relative group/preview min-h-[420px] shadow-2xl shadow-black/10 transform-gpu"
             >
+              {/* Highly textured Obsidian Monument artwork background inside deep sandbox */}
+              <div className="absolute inset-0 pointer-events-none opacity-[0.16] group-hover/preview:opacity-[0.24] transition-opacity duration-700 select-none z-0">
+                <img 
+                  src={artObsidian} 
+                  alt=""
+                  className="w-full h-full object-cover filter mix-blend-lighten scale-105 group-hover/preview:scale-100 transition-transform duration-700"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80" />
+              </div>
+
               {/* Grid overlay */}
               <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:30px_30px]" />
               

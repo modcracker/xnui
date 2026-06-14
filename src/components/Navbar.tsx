@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll } from "motion/react";
 import Logo from "./Logo";
+import React from "react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -11,6 +12,21 @@ export default function Navbar() {
       setScrolled(latest > 30);
     });
   }, [scrollY]);
+
+  const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    // If we are on the homepage, we can scroll directly
+    const currentHash = window.location.hash;
+    const isHomepage = !currentHash || currentHash === "#/home" || currentHash === "#home" || currentHash === "" || currentHash.startsWith("#/services") || currentHash.startsWith("#/laboratory");
+    
+    if (isHomepage) {
+      const el = document.getElementById(targetId);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", `#/${targetId === 'lab' ? 'laboratory' : targetId}`);
+      }
+    }
+  };
 
   const customEase = [0.19, 1, 0.22, 1] as const;
 
@@ -30,10 +46,10 @@ export default function Navbar() {
         window.location.hash = "#/home";
       }} />
       
-      {/* Streamlined links with elegant interactive line animations */}
-      <div className="flex items-center gap-8 md:gap-10 text-xs md:text-sm font-medium text-black/45">
+      <div className="flex items-center gap-7 md:gap-9 text-xs md:text-sm font-medium text-black/45">
         <a 
           href="#/services" 
+          onClick={(e) => handleScrollClick(e, "services")}
           aria-label="Our Services" 
           className="relative hover:text-black transition-colors duration-300 py-1 group hidden sm:block"
         >
@@ -42,10 +58,19 @@ export default function Navbar() {
         </a>
         <a 
           href="#/laboratory" 
+          onClick={(e) => handleScrollClick(e, "lab")}
           aria-label="Selected Work" 
           className="relative hover:text-black transition-colors duration-300 py-1 group hidden sm:block"
         >
           <span>Laboratory</span>
+          <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#0070f3] group-hover:w-full transition-all duration-300 ease-out" />
+        </a>
+        <a 
+          href="#/about" 
+          aria-label="About Tactile Studio" 
+          className="relative hover:text-black transition-colors duration-300 py-1 group hidden sm:block"
+        >
+          <span>About</span>
           <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#0070f3] group-hover:w-full transition-all duration-300 ease-out" />
         </a>
         <a 

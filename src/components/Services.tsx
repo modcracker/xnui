@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Cpu, Activity, Shield, Zap } from "lucide-react";
+
+// @ts-ignore
+import artLiquid from "../assets/images/art_liquid_glass_1781396083999.jpg";
 
 function getInteractiveSVG(id: string, hovered: boolean) {
   if (id === "01") {
@@ -135,9 +138,9 @@ interface ServiceConfig {
 const services: ServiceConfig[] = [
   {
     id: "01",
-    label: "Interface Design",
-    title: "Warm & Logical Layouts",
-    desc: "Intentionally crafted layouts concentrating on absolute clarity, generous negative spaces, and premium typography.",
+    label: "Interface & Visual Design",
+    title: "UX Designer Craftsmanship",
+    desc: "Intentionally crafted layouts by an experienced visual designer focusing on graphic composition, extreme spatial alignment, and premium typography.",
     icon: Cpu,
     color: "#0070f3",
     svg: (
@@ -201,9 +204,9 @@ const services: ServiceConfig[] = [
   },
   {
     id: "04",
-    label: "User Alignment",
-    title: "Intuitive Flow",
-    desc: "Clear layouts and step-by-step assistance that take the stress out of digital tasks and guide users naturally.",
+    label: "UX Service Alignment",
+    title: "Interactive Graphic UI",
+    desc: "Rigorous corporate UX service frameworks that take the complexity out of digital platforms, guiding users naturally with visual designer insights.",
     icon: Zap,
     color: "#fcbf49",
     svg: (
@@ -222,6 +225,16 @@ const services: ServiceConfig[] = [
 
 export default function Services() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#/services' || hash === '#services') {
+      setTimeout(() => {
+        const el = document.getElementById('services');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    }
+  }, []);
 
   // Premium staggered entries
   const containerVariants = {
@@ -243,7 +256,19 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className="py-20 md:py-28 bg-[#ffffff] relative border-b border-b-black/[0.02]">
+    <section id="services" className="py-20 md:py-28 bg-[#ffffff] relative border-b border-b-black/[0.02] overflow-hidden">
+      {/* High-fidelity Glass Flow Artwork Background Blend */}
+      <div className="absolute right-0 bottom-0 top-0 w-full md:w-1/2 pointer-events-none opacity-[0.038] mix-blend-multiply select-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white z-10" />
+        <img 
+          src={artLiquid} 
+          alt="" 
+          className="w-full h-full object-cover filter saturate-[0.2] contrast-[0.9]"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+
       {/* Structural geometric background lines */}
       <div className="absolute inset-0 grid grid-cols-2 lg:grid-cols-4 pointer-events-none border-y border-black/[0.02]">
         <div className="border-r border-black/[0.02]" />
@@ -283,6 +308,8 @@ export default function Services() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch mt-10"
+          itemScope
+          itemType="https://schema.org/ItemList"
         >
           {services.map((svc) => {
             const Icon = svc.icon;
@@ -295,8 +322,13 @@ export default function Services() {
                 onMouseEnter={() => setHoveredCard(svc.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 className="group relative flex flex-col justify-between p-6 rounded-2xl md:rounded-[1.75rem] border border-black/[0.04] bg-[#fcfcfc] hover:border-black/15 hover:bg-white transition-all duration-500 hover:shadow-xl hover:shadow-black/5"
+                itemScope
+                itemProp="itemListElement"
+                itemType="https://schema.org/Service"
               >
                 <div>
+                  <meta itemProp="provider" content="xnui" />
+                  <meta itemProp="areaServed" content="Worldwide" />
                   <div className="flex justify-between items-center mb-8">
                     <div 
                       className="p-3.5 rounded-xl bg-black/[0.02] text-black/50 transition-all duration-300 flex items-center justify-center shadow-inner group-hover:text-white"
@@ -312,13 +344,14 @@ export default function Services() {
                     <span 
                       className="font-sans text-xs font-semibold block"
                       style={{ color: svc.color }}
+                      itemProp="serviceType"
                     >
                       {svc.label}
                     </span>
-                    <h3 className="text-lg md:text-xl font-display font-medium leading-none tracking-tight text-black transition-colors">
+                    <h3 className="text-lg md:text-xl font-display font-medium leading-none tracking-tight text-black transition-colors" itemProp="name">
                       {svc.title}
                     </h3>
-                    <p className="text-xs md:text-sm text-black/45 font-light leading-relaxed transition-colors">
+                    <p className="text-xs md:text-sm text-black/45 font-light leading-relaxed transition-colors" itemProp="description">
                       {svc.desc}
                     </p>
                   </div>
