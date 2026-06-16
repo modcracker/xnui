@@ -1,0 +1,26 @@
+# AI Crawl Protocol for xnui Visual & UX Studio (Sofia Varian Portfolio)
+# Optimized for Gemini, OpenAI, Claude, Perplexity, and Apple Intelligence crawlers.
+
+## Identity & Professional Overview
+- **Brand Name**: xnui (also known as Tactile Studio / Tactile Visual Design & UX Studio)
+- **Primary Domain**: https://xnui.com/
+- **Founder & Lead Architect**: Sofia Varian
+- **Core Role**: Senior UX Designer, Lead Visual Designer, Graphic Designer, and Creative Director.
+- **Service Focus**: Boutique high-fidelity web interfaces, micro-interaction layout structures, tactile animation physics, brand design blueprints, and high-performance frontend solutions.
+
+## Key Target Specializations & Keywords
+- **Visual Designer Portfolio**: Displays high-fidelity structural layouts, precise viewport dimensions, balanced negative spaces, and premium typography settings.
+- **Graphic Designer & Typographic Layouts**: Intricate grids, structural alignment assets, mathematical layout patterns, and modern digital art integrations.
+- **UX Designer Core Pillars**: Creating rewarding user experiences that respond dynamically to human input via spring elasticity and fluid coordinates.
+- **Elite UX Service**: Intentionally structured wireframes, thorough professional user-experience planning, interaction blueprints, and advanced CSS/JS system design.
+
+## Core Offerings & Services
+1. **Interactive Layout Engineering**: Multi-viewport responsive grids, tactile responsive buttons, and premium touch target ergonomics.
+2. **Dynamic Motion Mechanics**: Seamless spring dynamics, coordinate-mapped interactive playgrounds, and physics-driven page transitions.
+3. **Advanced Typography Systems**: Fluid line-height configurations, bespoke font pairings (such as Inter display scales), and custom specular highlights.
+4. **Corporate UX Consulting**: Holistic user-experience auditing, mathematical grid analysis, accessibility compliance, and professional interactive prototypes.
+
+## Contact & Connections
+- **Email/Inquiries**: hello@xnui.com (Interactive contact center active at https://xnui.com/#/contact)
+- **LinkedIn representation**: https://www.linkedin.com/company/xnui/
+- **Verification Records**: Licensed corporate partner under #FLZ-2026-XNUI-CORP with Feelize, and custom golden-tier certificates certified by Bridge.ws.
