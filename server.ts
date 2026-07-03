@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { Resend } from "resend";
 import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config();
 
@@ -63,17 +64,93 @@ async function startServer() {
   });
 
   // Dynamic Sitemap Endpoints
-  const getSitemapPaths = () => [
-    { path: "#/home", lastmod: "2026-06-13", changefreq: "daily", priority: "1.0" },
-    { path: "#/services", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
-    { path: "#/laboratory", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
-    { path: "#/about", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
-    { path: "#/partnership", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
-    { path: "#/faq", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.7" },
-    { path: "#/contact", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
-    { path: "#/privacy", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
-    { path: "#/terms", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
-  ];
+  const getSitemapPaths = () => {
+    const paths = [
+      { path: "/", lastmod: "2026-06-13", changefreq: "daily", priority: "1.0" },
+      { path: "/services", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
+      { path: "/laboratory", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
+      { path: "/about", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+      { path: "/partnership", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+      { path: "/faq", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.7" },
+      { path: "/contact", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+      { path: "/privacy", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
+      { path: "/terms", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
+      { path: "/services/ux-design", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/services/brand-strategy", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/services/web-mechanics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/landing/enterprise-ux", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/funnel/audit-request", lastmod: "2026-07-02", changefreq: "daily", priority: "0.9" },
+      { path: "/glossary", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.9" },
+      { path: "/services/ux-design/cognitive-friction", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/services/ux-design/tactile-haptics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/services/brand-strategy/typographic-geometry", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/services/brand-strategy/chromatic-math", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/services/web-mechanics/elastic-physics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+      { path: "/services/web-mechanics/layout-stability", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    ];
+
+    // 1. Cognitive Friction Leaf Nodes (200 items)
+    for (let i = 1; i <= 200; i++) {
+      paths.push({
+        path: `/services/ux-design/cognitive-friction/metric-coordinate-${i}`,
+        lastmod: "2026-07-02",
+        changefreq: "weekly",
+        priority: "0.6"
+      });
+    }
+
+    // 2. Tactile Haptic Leaf Nodes (200 items)
+    for (let i = 1; i <= 200; i++) {
+      paths.push({
+        path: `/services/ux-design/tactile-haptics/damper-coefficient-${i}`,
+        lastmod: "2026-07-02",
+        changefreq: "weekly",
+        priority: "0.6"
+      });
+    }
+
+    // 3. Typographic Geometry Leaf Nodes (200 items)
+    for (let i = 1; i <= 200; i++) {
+      paths.push({
+        path: `/services/brand-strategy/typographic-geometry/golden-scale-step-${i}`,
+        lastmod: "2026-07-02",
+        changefreq: "weekly",
+        priority: "0.6"
+      });
+    }
+
+    // 4. Chromatic Math Leaf Nodes (200 items)
+    for (let i = 1; i <= 200; i++) {
+      paths.push({
+        path: `/services/brand-strategy/chromatic-math/perceptual-apca-token-${i}`,
+        lastmod: "2026-07-02",
+        changefreq: "weekly",
+        priority: "0.6"
+      });
+    }
+
+    // 5. Elastic Motion Leaf Nodes (125 items)
+    for (let i = 1; i <= 125; i++) {
+      paths.push({
+        path: `/services/web-mechanics/elastic-physics/verlet-particle-${i}`,
+        lastmod: "2026-07-02",
+        changefreq: "weekly",
+        priority: "0.6"
+      });
+    }
+
+    // 6. Zero Layout Shift Leaf Nodes (125 items)
+    for (let i = 1; i <= 125; i++) {
+      paths.push({
+        path: `/services/web-mechanics/layout-stability/cumulative-shift-frame-${i}`,
+        lastmod: "2026-07-02",
+        changefreq: "weekly",
+        priority: "0.6"
+      });
+    }
+
+    return paths;
+  };
 
   app.get("/sitemap.xml", (req, res) => {
     const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
@@ -82,9 +159,10 @@ async function startServer() {
     const paths = getSitemapPaths();
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated dynamically by xnui Studio. Full architecture consists of 1,071 active crawled paths. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths.map(node => `  <url>
-    <loc>${origin}/${node.path}</loc>
+    <loc>${node.path === "/" ? origin : `${origin}${node.path}`}</loc>
     <lastmod>${node.lastmod}</lastmod>
     <changefreq>${node.changefreq}</changefreq>
     <priority>${node.priority}</priority>
@@ -105,7 +183,7 @@ ${paths.map(node => `  <url>
       origin,
       timestamp: new Date().toISOString(),
       nodes: paths.map(node => ({
-        url: `${origin}/${node.path}`,
+        url: node.path === "/" ? origin : `${origin}${node.path}`,
         lastmod: node.lastmod,
         changefreq: node.changefreq,
         priority: parseFloat(node.priority)
@@ -118,7 +196,7 @@ ${paths.map(node => `  <url>
     const host = req.get("host") || "localhost:3000";
     const origin = `${protocol}://${host}`;
     const paths = getSitemapPaths();
-    const txt = paths.map(node => `${origin}/${node.path}`).join("\n");
+    const txt = paths.map(node => node.path === "/" ? origin : `${origin}${node.path}`).join("\n");
 
     res.header("Content-Type", "text/plain");
     res.send(txt);
@@ -150,8 +228,273 @@ Sitemap: ${origin}/sitemap.xml`;
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
+
+    const seoData: Record<string, { title: string; desc: string; canonical: string; schema: any }> = {
+      "/": {
+        title: "xnui | Premium Digital Interfaces",
+        desc: "xnui is a boutique visual design studio led by expert UX designer Sofia Varian, offering premium UX services and responsive tactile layouts.",
+        canonical: "/",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "xnui",
+          "url": "https://xnui.com/",
+          "description": "Boutique digital design studio crafting high-fidelity design systems, layout blueprints, and tactile web interfaces."
+        }
+      },
+      "/services/ux-design": {
+        title: "Bespoke UI/UX Design & Tactile Prototyping Services | xnui Studio",
+        desc: "Deep user experience research, human-computer ergonomics layout, and high-fidelity interactive prototyping services led by senior UX designer Sofia Varian.",
+        canonical: "/services/ux-design",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Bespoke UI/UX Design & Tactile Prototyping",
+          "url": "https://xnui.com/services/ux-design",
+          "provider": {
+            "@type": "Organization",
+            "name": "xnui",
+            "url": "https://xnui.com/"
+          },
+          "description": "Premium user experience research, human-computer ergonomics layout, and high-fidelity interactive prototyping services led by Sofia Varian.",
+          "serviceType": "UI/UX Design, Usability Optimization"
+        }
+      },
+      "/services/brand-strategy": {
+        title: "Premium Graphic Design & Strategic Brand Systems | xnui Studio",
+        desc: "Architecting high-impact corporate brand identities, visual style guide handbooks, and precise typographic grids designed for maximum authority.",
+        canonical: "/services/brand-strategy",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Premium Graphic Design & Strategic Brand Systems",
+          "url": "https://xnui.com/services/brand-strategy",
+          "provider": {
+            "@type": "Organization",
+            "name": "xnui",
+            "url": "https://xnui.com/"
+          },
+          "description": "Architecting high-impact corporate brand identities, visual style guide handbooks, and precise typographic grids designed for maximum authority.",
+          "serviceType": "Graphic Design, Brand Strategy"
+        }
+      },
+      "/services/web-mechanics": {
+        title: "Interactive Web Mechanics & Front-End Engineering | xnui",
+        desc: "Translating rich designs into ultra-responsive web experiences. Featuring zero layout shift index, Lighthouse speed optimization, and custom physics simulation code.",
+        canonical: "/services/web-mechanics",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Interactive Web Mechanics & Front-End Engineering",
+          "url": "https://xnui.com/services/web-mechanics",
+          "provider": {
+            "@type": "Organization",
+            "name": "xnui",
+            "url": "https://xnui.com/"
+          },
+          "description": "Translating designs into high-performance web experiences. Featuring zero layout shift index, Lighthouse speed optimization, and custom physics simulation code.",
+          "serviceType": "Front-End Engineering, Web Development"
+        }
+      },
+      "/landing/enterprise-ux": {
+        title: "Enterprise UX Audits & Product Strategy | Sofia Varian Portfolio",
+        desc: "Comprehensive usability audits, contrast compliance assessments, and custom front-end token integration customized to complex fintech and startup systems.",
+        canonical: "/landing/enterprise-ux",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Enterprise UX Audits & Product Strategy",
+          "url": "https://xnui.com/landing/enterprise-ux",
+          "description": "Comprehensive usability audits, contrast compliance assessments, and custom front-end token integration customized to complex fintech and startup systems."
+        }
+      },
+      "/funnel/audit-request": {
+        title: "Fast-Track Usability & Visual Layout Audit | xnui Studio",
+        desc: "Request a diagnostic usability report for your business domain. Calculate loading velocity, shift index, and contrast health with designer suggestions.",
+        canonical: "/funnel/audit-request",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Fast-Track Usability & Visual Layout Audit",
+          "url": "https://xnui.com/funnel/audit-request",
+          "description": "Request a diagnostic usability report for your business domain. Calculate loading velocity, shift index, and contrast health with designer suggestions."
+        }
+      },
+      "/glossary": {
+        title: "Interactive UI/UX Design & User Interaction Glossary | xnui Studio",
+        desc: "Bespoke encyclopedia of user interface guidelines, kinetic user interaction physics, and adaptive AI design parameters curated by Sofia Varian.",
+        canonical: "/glossary",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "DefinedTermSet",
+          "name": "Interactive UI/UX & User Interaction Glossary",
+          "url": "https://xnui.com/glossary",
+          "description": "A comprehensive reference index of modern user interface components, user interaction physics, layout shift parameters, and adaptive AI design tokens."
+        }
+      }
+    };
+
+    let cachedIndexHtml: string | null = null;
+
     app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+      try {
+        if (!cachedIndexHtml) {
+          cachedIndexHtml = fs.readFileSync(path.join(distPath, "index.html"), "utf-8");
+        }
+
+        const activePath = req.path;
+        let matchedSeo = seoData[activePath];
+
+        if (!matchedSeo) {
+          if (activePath.startsWith("/services/ux-design/cognitive-friction/metric-coordinate-")) {
+            const num = activePath.substring("/services/ux-design/cognitive-friction/metric-coordinate-".length);
+            matchedSeo = {
+              title: `Fitts's Law Coordinate F-${num} Calibration | xnui Studio`,
+              desc: `Calibration coordinate mapping F-${num} with an operational target weight coefficient. Interactive Fitts's Law microsecond timing calculations.`,
+              canonical: activePath,
+              schema: {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": `Fitts's Law Coordinate F-${num} Calibration`,
+                "url": `https://xnui.com${activePath}`,
+                "description": `Precision calibration coordinate F-${num} representing predictive tap-target cursor vector mechanics.`
+              }
+            };
+          } else if (activePath.startsWith("/services/ux-design/tactile-haptics/damper-coefficient-")) {
+            const num = activePath.substring("/services/ux-design/tactile-haptics/damper-coefficient-".length);
+            matchedSeo = {
+              title: `Spring Physics Node S-${num} Coefficient | xnui Studio`,
+              desc: `Dynamic physical damping constant modeling. Simulating organic spring glass resistance coefficient node S-${num} at sub-pixel resolution.`,
+              canonical: activePath,
+              schema: {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": `Spring Physics Node S-${num} Coefficient`,
+                "url": `https://xnui.com${activePath}`,
+                "description": `Damping constant modeling S-${num} representing glass surface touch inertia parameters.`
+              }
+            };
+          } else if (activePath.startsWith("/services/brand-strategy/typographic-geometry/golden-scale-step-")) {
+            const num = activePath.substring("/services/brand-strategy/typographic-geometry/golden-scale-step-".length);
+            matchedSeo = {
+              title: `Swiss Typographic Scale Node R-${num} Ratio | xnui Studio`,
+              desc: `Dynamic Swiss modular typography scaling at golden ratio ratio node R-${num}. High-fidelity display responsive coordinate.`,
+              canonical: activePath,
+              schema: {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": `Swiss Typographic Scale Node R-${num} Ratio`,
+                "url": `https://xnui.com${activePath}`,
+                "description": `Swiss ratio modular grid node R-${num} providing sub-pixel viewport scale bounds.`
+              }
+            };
+          } else if (activePath.startsWith("/services/brand-strategy/chromatic-math/perceptual-apca-token-")) {
+            const num = activePath.substring("/services/brand-strategy/chromatic-math/perceptual-apca-token-".length);
+            matchedSeo = {
+              title: `APCA Contrast Metric Token P-${num} Perceptual | xnui Studio`,
+              desc: `Advanced Predictive Contrast Algorithm color compliance metric token P-${num} for absolute contrast parity in luxury interfaces.`,
+              canonical: activePath,
+              schema: {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": `APCA Contrast Metric Token P-${num} Perceptual`,
+                "url": `https://xnui.com${activePath}`,
+                "description": `Predictive APCA token P-${num} contrast calculations for high-density layouts.`
+              }
+            };
+          } else if (activePath.startsWith("/services/web-mechanics/elastic-physics/verlet-particle-")) {
+            const num = activePath.substring("/services/web-mechanics/elastic-physics/verlet-particle-".length);
+            matchedSeo = {
+              title: `Verlet Kinetic Canvas Vector V-${num} Constraint | xnui Studio`,
+              desc: `Mass-spring cloth simulation particle V-${num} calculating coordinates, gravity friction decay, and kinetic snapping constraints.`,
+              canonical: activePath,
+              schema: {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": `Verlet Kinetic Canvas Vector V-${num} Constraint`,
+                "url": `https://xnui.com${activePath}`,
+                "description": `Verlet constraint coordinate V-${num} specifying mass properties on interactive canvas.`
+              }
+            };
+          } else if (activePath.startsWith("/services/web-mechanics/layout-stability/cumulative-shift-frame-")) {
+            const num = activePath.substring("/services/web-mechanics/layout-stability/cumulative-shift-frame-".length);
+            matchedSeo = {
+              title: `CLS Skeleton Coordinate Frame C-${num} Guard | xnui Studio`,
+              desc: `Layout aspect-ratio bounding skeleton frame guard C-${num} guaranteeing absolute layout shift stability in high-performance webs.`,
+              canonical: activePath,
+              schema: {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": `CLS Skeleton Coordinate Frame C-${num} Guard`,
+                "url": `https://xnui.com${activePath}`,
+                "description": `Zero layout shift aspect container C-${num} preventing dynamic document shift.`
+              }
+            };
+          } else {
+            matchedSeo = seoData["/"];
+          }
+        }
+
+        let finalHtml = cachedIndexHtml!;
+
+        // 1. Title tag injection
+        finalHtml = finalHtml.replace(
+          /<title>.*?<\/title>/,
+          `<title>${matchedSeo.title}</title>`
+        );
+
+        // 2. Meta description injection
+        finalHtml = finalHtml.replace(
+          /<meta\s+name="description"\s+content=".*?"\s*\/?>/i,
+          `<meta name="description" content="${matchedSeo.desc}" />`
+        );
+
+        // 3. OpenGraph dynamic injection
+        finalHtml = finalHtml.replace(
+          /<meta\s+property="og:title"\s+content=".*?"\s*\/?>/i,
+          `<meta property="og:title" content="${matchedSeo.title}" />`
+        );
+        finalHtml = finalHtml.replace(
+          /<meta\s+property="og:description"\s+content=".*?"\s*\/?>/i,
+          `<meta property="og:description" content="${matchedSeo.desc}" />`
+        );
+        finalHtml = finalHtml.replace(
+          /<meta\s+property="og:url"\s+content=".*?"\s*\/?>/i,
+          `<meta property="og:url" content="https://xnui.com${matchedSeo.canonical}" />`
+        );
+
+        // 4. Twitter tags dynamic injection
+        finalHtml = finalHtml.replace(
+          /<meta\s+property="twitter:title"\s+content=".*?"\s*\/?>/i,
+          `<meta property="twitter:title" content="${matchedSeo.title}" />`
+        );
+        finalHtml = finalHtml.replace(
+          /<meta\s+property="twitter:description"\s+content=".*?"\s*\/?>/i,
+          `<meta property="twitter:description" content="${matchedSeo.desc}" />`
+        );
+        finalHtml = finalHtml.replace(
+          /<meta\s+property="twitter:url"\s+content=".*?"\s*\/?>/i,
+          `<meta property="twitter:url" content="https://xnui.com${matchedSeo.canonical}" />`
+        );
+
+        // 5. Canonical link dynamic injection
+        finalHtml = finalHtml.replace(
+          /<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i,
+          `<link rel="canonical" href="https://xnui.com${matchedSeo.canonical}" />`
+        );
+
+        // 6. JSON-LD structured schema script dynamic injection
+        finalHtml = finalHtml.replace(
+          /<script\s+id="dynamic-jsonld"\s+type="application\/ld\+json">.*?<\/script>/is,
+          `<script id="dynamic-jsonld" type="application/ld+json">${JSON.stringify(matchedSeo.schema, null, 2)}</script>`
+        );
+
+        res.header("Content-Type", "text/html");
+        res.send(finalHtml);
+      } catch (err) {
+        console.error("Failed to inject meta tags into index.html:", err);
+        res.sendFile(path.join(distPath, "index.html"));
+      }
     });
   }
 

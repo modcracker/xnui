@@ -4,7 +4,7 @@ import MachineCore from "./MachineCore";
 import ParticleLayer from "./ParticleLayer";
 
 // @ts-ignore
-import artBlueprint from "../assets/images/art_parametric_blueprint_1781396116015.jpg";
+import cyberpunkCircuitry from "../assets/images/cyberpunk_circuitry_1781576998511.jpg";
 
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -33,7 +33,7 @@ export default function Hero() {
   const xMachine = useTransform(scrollY, [0, 600], [0, scrollRangeX]);
   const yMachine = useTransform(scrollY, [0, 600], [0, -45]);
   const scaleMachine = useTransform(scrollY, [0, 600], [1, 0.84]);
-  const opacity = useTransform(scrollY, [0, 500], [1, 0.98]);
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   // Slow parallax scrolling drift for the background artistic blueprint
   const yBlueprintShift = useTransform(scrollY, [0, 1000], [0, 150]);
@@ -46,12 +46,12 @@ export default function Hero() {
       {/* High-fidelity full-screen artistic mechanical blueprint backdrop */}
       <motion.div 
         style={{ y: yBlueprintShift }}
-        className="absolute inset-0 z-0 pointer-events-none opacity-[0.065] mix-blend-multiply overflow-hidden select-none"
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.075] mix-blend-multiply overflow-hidden select-none"
       >
         <img 
-          src={artBlueprint} 
+          src={cyberpunkCircuitry} 
           alt="" 
-          className="w-full h-full object-cover filter saturate-[0.15] contrast-[1.05]" 
+          className="w-full h-full object-cover filter saturate-[0.12] contrast-[1.02]" 
           referrerPolicy="no-referrer"
         />
       </motion.div>

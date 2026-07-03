@@ -14,17 +14,22 @@ export default function Navbar() {
   }, [scrollY]);
 
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    // If we are on the homepage, we can scroll directly
-    const currentHash = window.location.hash;
-    const isHomepage = !currentHash || currentHash === "#/home" || currentHash === "#home" || currentHash === "" || currentHash.startsWith("#/services") || currentHash.startsWith("#/laboratory");
+    const currentPath = window.location.pathname;
+    const isHomepage = currentPath === "/" || currentPath === "/services" || currentPath === "/laboratory" || currentPath === "/lab" || currentPath === "/faq";
     
     if (isHomepage) {
       const el = document.getElementById(targetId);
       if (el) {
         e.preventDefault();
         el.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", `#/${targetId === 'lab' ? 'laboratory' : targetId}`);
+        const cleanPath = `/${targetId === "lab" ? "laboratory" : targetId}`;
+        window.history.pushState(null, "", cleanPath);
       }
+    } else {
+      e.preventDefault();
+      const cleanPath = `/${targetId === "lab" ? "laboratory" : targetId}`;
+      window.history.pushState(null, "", cleanPath);
+      window.dispatchEvent(new Event("popstate"));
     }
   };
 
@@ -43,12 +48,13 @@ export default function Navbar() {
       }`}
     >
       <Logo onClick={() => {
-        window.location.hash = "#/home";
+        window.history.pushState(null, "", "/");
+        window.dispatchEvent(new Event("popstate"));
       }} />
       
       <div className="flex items-center gap-7 md:gap-9 text-xs md:text-sm font-medium text-black/45">
         <a 
-          href="#/services" 
+          href="/services" 
           onClick={(e) => handleScrollClick(e, "services")}
           aria-label="Our Services" 
           className="relative hover:text-black transition-colors duration-300 py-1 group hidden sm:block"
@@ -57,7 +63,7 @@ export default function Navbar() {
           <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#0070f3] group-hover:w-full transition-all duration-300 ease-out" />
         </a>
         <a 
-          href="#/laboratory" 
+          href="/laboratory" 
           onClick={(e) => handleScrollClick(e, "lab")}
           aria-label="Selected Work" 
           className="relative hover:text-black transition-colors duration-300 py-1 group hidden sm:block"
@@ -66,7 +72,7 @@ export default function Navbar() {
           <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#0070f3] group-hover:w-full transition-all duration-300 ease-out" />
         </a>
         <a 
-          href="#/about" 
+          href="/about" 
           aria-label="About Tactile Studio" 
           className="relative hover:text-black transition-colors duration-300 py-1 group hidden sm:block"
         >
@@ -74,7 +80,8 @@ export default function Navbar() {
           <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#0070f3] group-hover:w-full transition-all duration-300 ease-out" />
         </a>
         <a 
-          href="#/faq" 
+          href="/faq" 
+          onClick={(e) => handleScrollClick(e, "faq")}
           aria-label="Information and FAQ" 
           className="relative hover:text-black transition-colors duration-300 py-1 group hidden sm:block"
         >
@@ -82,7 +89,7 @@ export default function Navbar() {
           <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#0070f3] group-hover:w-full transition-all duration-300 ease-out" />
         </a>
         <a 
-          href="#/contact" 
+          href="/contact" 
           aria-label="Initiate Contact"
           className="px-5 py-2 rounded-full transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] font-sans text-xs md:text-sm font-bold tracking-tight outline-none bg-black text-white hover:bg-[#0070f3] hover:shadow-lg hover:shadow-[#0070f3]/15 hover:scale-[1.02] active:scale-[0.98]"
         >

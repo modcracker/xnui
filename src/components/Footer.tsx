@@ -4,17 +4,22 @@ import React from "react";
 
 export default function Footer() {
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    // If we are on the homepage, we can scroll directly
-    const currentHash = window.location.hash;
-    const isHomepage = !currentHash || currentHash === "#/home" || currentHash === "#home" || currentHash === "" || currentHash.startsWith("#/services") || currentHash.startsWith("#/laboratory");
+    const currentPath = window.location.pathname;
+    const isHomepage = currentPath === "/" || currentPath === "/services" || currentPath === "/laboratory" || currentPath === "/lab" || currentPath === "/faq";
     
     if (isHomepage) {
       const el = document.getElementById(targetId);
       if (el) {
         e.preventDefault();
         el.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", `#/${targetId === 'lab' ? 'laboratory' : targetId}`);
+        const cleanPath = `/${targetId === "lab" ? "laboratory" : targetId}`;
+        window.history.pushState(null, "", cleanPath);
       }
+    } else {
+      e.preventDefault();
+      const cleanPath = `/${targetId === "lab" ? "laboratory" : targetId}`;
+      window.history.pushState(null, "", cleanPath);
+      window.dispatchEvent(new Event("popstate"));
     }
   };
 
@@ -44,16 +49,19 @@ export default function Footer() {
             </span>
             <ul className="space-y-2.5 text-xs md:text-sm text-black/55 font-light list-none p-0 m-0">
               <li>
-                <a href="#/services" onClick={(e) => handleScrollClick(e, "services")} className="hover:text-electric-blue transition-colors block py-0.5">Services Offerings</a>
+                <a href="/services" onClick={(e) => handleScrollClick(e, "services")} className="hover:text-electric-blue transition-colors block py-0.5">Services Offerings</a>
               </li>
               <li>
-                <a href="#/laboratory" onClick={(e) => handleScrollClick(e, "lab")} className="hover:text-electric-blue transition-colors block py-0.5">Laboratory Experiments</a>
+                <a href="/laboratory" onClick={(e) => handleScrollClick(e, "lab")} className="hover:text-electric-blue transition-colors block py-0.5">Laboratory Experiments</a>
               </li>
               <li>
-                <a href="#/about" className="hover:text-electric-blue transition-colors block py-0.5">About Specialist</a>
+                <a href="/about" className="hover:text-electric-blue transition-colors block py-0.5">About Specialist</a>
               </li>
               <li>
-                <a href="#/faq" className="hover:text-electric-blue transition-colors block py-0.5">Global FAQ Support</a>
+                <a href="/faq" onClick={(e) => handleScrollClick(e, "faq")} className="hover:text-electric-blue transition-colors block py-0.5">Global FAQ Support</a>
+              </li>
+              <li>
+                <a href="/glossary" className="hover:text-[#0070f3] transition-colors block py-0.5 font-bold text-[#0070f3]">Interactive UI/UX Glossary</a>
               </li>
             </ul>
           </div>
@@ -65,7 +73,7 @@ export default function Footer() {
             </span>
             <ul className="space-y-2.5 text-xs md:text-sm text-black/55 font-light list-none p-0 m-0">
               <li>
-                <a href="#/sitemap" className="hover:text-electric-blue transition-colors block py-0.5 font-semibold">HTML Visual Sitemap</a>
+                <a href="/sitemap" className="hover:text-electric-blue transition-colors block py-0.5 font-semibold">HTML Visual Sitemap</a>
               </li>
               <li>
                 <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-electric-blue transition-colors block py-0.5 font-mono text-[11px]">Sitemap (XML)</a>
@@ -92,13 +100,13 @@ export default function Footer() {
                 <a href="/robots.txt" target="_blank" rel="noopener noreferrer" className="text-xs md:text-sm text-black/55 hover:text-electric-blue transition-colors py-0.5 font-mono text-[11px] block">
                   Robots.txt Schema
                 </a>
-                <a href="/ai.txt" target="_blank" rel="noopener noreferrer" className="text-xs md:text-sm text-purple-600 hover:text-[#0070f3] transition-colors py-0.5 font-mono text-[11px] font-semibold block">
+                <a href="/ai.txt" target="_blank" rel="noopener noreferrer" className="text-xs md:text-sm text-black/55 hover:text-electric-blue transition-colors py-0.5 font-mono text-[11px] block">
                   AI.txt Directive
                 </a>
               </div>
               <div className="pt-1">
                 <a 
-                  href="#/contact" 
+                  href="/contact" 
                   className="inline-block px-5 py-2 bg-black text-white hover:bg-electric-blue rounded-full text-xs font-semibold tracking-tight transition-all duration-300 text-center shadow-xs active:scale-95"
                 >
                   Consult Account
@@ -137,7 +145,7 @@ export default function Footer() {
 
             {/* Feelize Partner Seal - Perfectly matching dimensions */}
             <a 
-              href="#/partnership" 
+              href="/partnership" 
               className="relative flex items-center justify-between gap-6 px-5 py-3 rounded-xl border border-slate-900/10 bg-slate-100 hover:border-blue-500/30 hover:bg-white transition-all duration-300 select-none cursor-pointer group active:scale-[0.98] h-16 w-full sm:w-auto md:min-w-[280px] overflow-hidden"
             >
               {/* Subtle top-right ribbon indicator */}
@@ -192,10 +200,10 @@ export default function Footer() {
           </div>
           
           <div className="flex flex-wrap items-center justify-center lg:justify-end gap-x-6 gap-y-2 text-xs text-black/45">
-            <a href="#/privacy" className="hover:text-electric-blue transition-colors font-medium">Privacy Policy</a>
-            <a href="#/terms" className="hover:text-electric-blue transition-colors font-medium">Terms of Service</a>
+            <a href="/privacy" className="hover:text-electric-blue transition-colors font-medium">Privacy Policy</a>
+            <a href="/terms" className="hover:text-electric-blue transition-colors font-medium">Terms of Service</a>
             <span className="hidden sm:inline w-1 h-1 rounded-full bg-black/10" />
-            <a href="#/contact" className="hover:text-electric-blue transition-colors">Contact Support &middot; San Francisco</a>
+            <a href="/contact" className="hover:text-electric-blue transition-colors">Contact Support &middot; San Francisco</a>
           </div>
         </div>
 

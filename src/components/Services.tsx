@@ -133,6 +133,7 @@ interface ServiceConfig {
   icon: typeof Cpu;
   color: string;
   svg: React.ReactNode;
+  path: string;
 }
 
 const services: ServiceConfig[] = [
@@ -143,6 +144,7 @@ const services: ServiceConfig[] = [
     desc: "Intentionally crafted layouts by an experienced visual designer focusing on graphic composition, extreme spatial alignment, and premium typography.",
     icon: Cpu,
     color: "#0070f3",
+    path: "/services/ux-design",
     svg: (
       <svg viewBox="0 0 160 80" className="w-full h-16 select-none opacity-50">
         <line x1="20" y1="20" x2="140" y2="20" stroke="#0070f3" strokeWidth="0.3" strokeOpacity="0.15" strokeDasharray="2 4" />
@@ -165,6 +167,7 @@ const services: ServiceConfig[] = [
     desc: "Delightful transitions, tactile hover feedback, and micro-interactions that make navigation feel completely fluid.",
     icon: Activity,
     color: "#f77f00",
+    path: "/services/web-mechanics",
     svg: (
       <svg viewBox="0 0 160 80" className="w-full h-16 select-none opacity-50">
         <path
@@ -192,6 +195,7 @@ const services: ServiceConfig[] = [
     desc: "Rigorous standards and data-isolation layers designed to ensure that keys and user logins remain safe and private.",
     icon: Shield,
     color: "#e63946",
+    path: "/privacy",
     svg: (
       <svg viewBox="0 0 160 80" className="w-full h-16 select-none opacity-50">
         <circle cx="80" cy="40" r="28" fill="none" stroke="#e63946" strokeWidth="0.5" strokeOpacity="0.25" strokeDasharray="1 5" />
@@ -209,6 +213,7 @@ const services: ServiceConfig[] = [
     desc: "Rigorous corporate UX service frameworks that take the complexity out of digital platforms, guiding users naturally with visual designer insights.",
     icon: Zap,
     color: "#fcbf49",
+    path: "/services/brand-strategy",
     svg: (
       <svg viewBox="0 0 160 80" className="w-full h-16 select-none opacity-50">
         <line x1="15" y1="20" x2="145" y2="20" stroke="#fcbf49" strokeWidth="0.4" strokeOpacity="0.35" />
@@ -316,12 +321,13 @@ export default function Services() {
             const isHovered = hoveredCard === svc.id;
 
             return (
-              <motion.div
+              <motion.a
+                href={svc.path}
                 key={svc.id}
                 variants={cardVariants}
                 onMouseEnter={() => setHoveredCard(svc.id)}
                 onMouseLeave={() => setHoveredCard(null)}
-                className="group relative flex flex-col justify-between p-6 rounded-2xl md:rounded-[1.75rem] border border-black/[0.04] bg-[#fcfcfc] hover:border-black/15 hover:bg-white transition-all duration-500 hover:shadow-xl hover:shadow-black/5"
+                className="group relative flex flex-col justify-between p-6 rounded-2xl md:rounded-[1.75rem] border border-black/[0.04] bg-[#fcfcfc] hover:border-black/15 hover:bg-white transition-all duration-500 hover:shadow-xl hover:shadow-black/5 block cursor-pointer select-none"
                 itemScope
                 itemProp="itemListElement"
                 itemType="https://schema.org/Service"
@@ -366,7 +372,7 @@ export default function Services() {
                     {getInteractiveSVG(svc.id, isHovered)}
                   </div>
                 </div>
-              </motion.div>
+              </motion.a>
             );
           })}
         </motion.div>
