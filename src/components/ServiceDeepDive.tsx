@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { generateDynamicSEOContent } from "../lib/seoGenerator";
 import { 
   Zap, 
   ArrowLeft, 
@@ -100,36 +101,20 @@ export default function ServiceDeepDive({ subPageId }: { subPageId: string }) {
   let leafTitle = "";
   let leafDesc = "";
   let leafMeta = "";
+  let leafCopy = "";
+  let leafTags: string[] = [];
   
   if (isLeaf) {
-    if (leafType === "cognitive-friction") {
-      leafTitle = `Fitts's Law Coordinate F-${leafId} Calibration`;
-      leafDesc = `Precision validation coordinate representing predictive tap-target cursor vector mechanics. Model F-${leafId} calculates decision-to-motion latency with dynamic target weights.`;
-      leafMeta = `COORDINATE CALIBRATION F-${leafId}`;
-    } else if (leafType === "tactile-haptics") {
-      leafTitle = `Spring Physics Node S-${leafId} Coefficient`;
-      leafDesc = `Interactive physical damping constant modeling. Simulating organic spring glass resistance coefficient node S-${leafId} at sub-pixel viewport boundaries.`;
-      leafMeta = `SPRING STIFFNESS CONSTANT S-${leafId}`;
-    } else if (leafType === "typographic-geometry") {
-      leafTitle = `Swiss Typographic Scale Node R-${leafId} Ratio`;
-      leafDesc = `Swiss modular typographic ratio grid node R-${leafId} providing fluid sub-pixel viewport scaling and structural font constraints.`;
-      leafMeta = `SWISS GRIDS GOLDEN STEP R-${leafId}`;
-    } else if (leafType === "chromatic-math") {
-      leafTitle = `APCA Contrast Metric Token P-${leafId} Perceptual`;
-      leafDesc = `Predictive APCA token contrast validation calculations for high-density luxury dashboards, matching WCAG 3.0 pre-flight targets.`;
-      leafMeta = `APCA COMPLIANCE TOKEN P-${leafId}`;
-    } else if (leafType === "elastic-physics") {
-      leafTitle = `Verlet Kinetic Canvas Vector V-${leafId} Constraint`;
-      leafDesc = `Mass-spring cloth simulation node V-${leafId} detailing custom gravity decay and physical coordinate response mechanics.`;
-      leafMeta = `VERLET VECTOR CONSTRAINT V-${leafId}`;
-    } else if (leafType === "layout-stability") {
-      leafTitle = `CLS Skeleton Coordinate Frame C-${leafId} Guard`;
-      leafDesc = `Zero layout shift aspect container C-${leafId} preventing unexpected document layout shifts during heavy dynamic client resource streaming.`;
-      leafMeta = `CORE CLS STABILITY FRAME C-${leafId}`;
-    }
+    const content = generateDynamicSEOContent(leafType, leafId);
+    leafTitle = content.title;
+    leafDesc = content.desc;
+    leafMeta = content.meta;
+    leafCopy = content.richCopy;
+    leafTags = content.tags;
   }
   
   // 1. Cognitive Friction state
+  const [verifyFeedback, setVerifyFeedback] = useState<string | null>(null);
   const [fittsTargetSize, setFittsTargetSize] = useState<number>(50);
   const [fittsDistance, setFittsDistance] = useState<number>(200);
   const [fittsTime, setFittsTime] = useState<number | null>(null);
@@ -579,20 +564,43 @@ export default function ServiceDeepDive({ subPageId }: { subPageId: string }) {
                       </div>
 
                       {/* Interactive click test tailored for F-X */}
-                      <div className="h-44 bg-slate-100 rounded-xl relative overflow-hidden flex items-center justify-center border border-black/5">
-                        <button
-                          onClick={() => {
-                            const size = 30 + (parseInt(leafId) % 50);
-                            const distance = 150 + (parseInt(leafId) * 2);
-                            const id = Math.log2((2 * distance) / size);
-                            const mt = Math.round(150 + 180 * id);
-                            alert(`Calibration Node F-${leafId} response verified:\n- Target Size: ${size}px\n- Index of Difficulty: ${id.toFixed(2)} bits\n- Projected Motion Time (MT): ${mt}ms`);
-                          }}
-                          className="px-4 py-2.5 bg-[#0070f3] text-white font-mono text-xs font-bold rounded-lg shadow-md hover:bg-indigo-600 transition-colors"
-                        >
-                          VERIFY TARGET F-{leafId}
-                        </button>
-                        <span className="absolute bottom-2 right-3 text-[9px] font-mono text-black/35">CLICK BUTTON TO RUN COGNITIVE FLIGHT SUM</span>
+                      <div className="h-44 bg-slate-100 rounded-xl relative overflow-hidden flex flex-col items-center justify-center border border-black/5 p-4 text-center">
+                        {verifyFeedback ? (
+                          <motion.div 
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="space-y-2"
+                          >
+                            <span className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 text-[10px] font-mono uppercase tracking-wider font-bold">
+                              Verified ✓
+                            </span>
+                            <p className="text-xs font-mono font-bold text-slate-800 whitespace-pre-line leading-relaxed">
+                              {verifyFeedback}
+                            </p>
+                            <button
+                              onClick={() => setVerifyFeedback(null)}
+                              className="text-[10px] text-indigo-600 hover:underline font-mono bg-transparent border-0 cursor-pointer"
+                            >
+                              Reset Calibration
+                            </button>
+                          </motion.div>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => {
+                                const size = 30 + (parseInt(leafId) % 50);
+                                const distance = 150 + (parseInt(leafId) * 2);
+                                const id = Math.log2((2 * distance) / size);
+                                const mt = Math.round(150 + 180 * id);
+                                setVerifyFeedback(`Node F-${leafId} online.\nTarget: ${size}px | Difficulty: ${id.toFixed(2)} bits\nProjected Motion Time (MT): ${mt}ms`);
+                              }}
+                              className="px-4 py-2.5 bg-[#0070f3] text-white font-mono text-xs font-bold rounded-lg shadow-md hover:bg-indigo-600 transition-colors cursor-pointer"
+                            >
+                              VERIFY TARGET F-{leafId}
+                            </button>
+                            <span className="absolute bottom-2 right-3 text-[9px] font-mono text-black/35">CLICK BUTTON TO RUN COGNITIVE FLIGHT SUM</span>
+                          </>
+                        )}
                       </div>
                       
                       <div className="grid grid-cols-3 gap-2 text-center">
@@ -1232,6 +1240,54 @@ export default function ServiceDeepDive({ subPageId }: { subPageId: string }) {
               <strong>Interactive Core Assurance:</strong> Running mathematical coordinates within real-time rendering layers completely avoids hydration penalties, satisfying search rank parameters immediately.
             </p>
           </div>
+
+          {isLeaf && (
+            <div className="mt-8 p-8 rounded-3xl bg-slate-900 text-white border border-white/5 space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-white/10">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest block">DEEP-LINK SEO INDEX RECORD</span>
+                  <h3 className="text-lg font-sans font-medium tracking-tight">Dynamic Search Authority Analysis</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {leafTags.map((tag, idx) => (
+                    <span key={idx} className="px-2.5 py-0.5 rounded-md bg-white/10 text-white/90 text-[10px] font-mono border border-white/5 uppercase">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="space-y-4 text-xs md:text-sm font-light leading-relaxed text-slate-300">
+                <p className="font-mono text-[10px] text-indigo-300 uppercase tracking-wider mb-2">★ AUDITED INTELLECTUAL SPECIFICATION</p>
+                <div className="whitespace-pre-line text-slate-800 bg-white/95 p-6 rounded-2xl border border-white/10 shadow-lg font-sans">
+                  {leafCopy}
+                </div>
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-3 items-center">
+                <span className="text-[9px] text-slate-400 uppercase tracking-wider">Related Contexts:</span>
+                <a href="/sitemap" className="text-xs text-indigo-400 hover:text-white font-mono flex items-center gap-1 transition-all">
+                  Full Sitemap Index <ChevronRight size={10} />
+                </a>
+                <span className="text-slate-600 text-xs">|</span>
+                <a href={page.parentPath} onClick={handleBackToParent} className="text-xs text-indigo-400 hover:text-white font-mono flex items-center gap-1 transition-all">
+                  {page.parentName} <ChevronRight size={10} />
+                </a>
+                <span className="text-slate-600 text-xs">|</span>
+                <a href="/funnel/audit-request" className="text-xs text-indigo-400 hover:text-white font-mono flex items-center gap-1 transition-all">
+                  Request Funnel Audit <ChevronRight size={10} />
+                </a>
+              </div>
+              
+              <div className="pt-4 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] font-mono text-slate-400">
+                <span>INDEXING PARAMETER: SECURE (200 OK)</span>
+                <span className="text-emerald-400 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  GOOGLE BOT PRE-VERIFIED RANK ASSURANCE
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Sidebar Index showing sitemaps 3rd layer nodes and nested links */}

@@ -4,6 +4,7 @@ import { createServer as createViteServer } from "vite";
 import { Resend } from "resend";
 import dotenv from "dotenv";
 import fs from "fs";
+import { generateDynamicSEOContent } from "./src/lib/seoGenerator";
 
 dotenv.config();
 
@@ -89,61 +90,61 @@ async function startServer() {
       { path: "/services/web-mechanics/layout-stability", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
     ];
 
-    // 1. Cognitive Friction Leaf Nodes (200 items)
-    for (let i = 1; i <= 200; i++) {
+    // 1. Cognitive Friction Leaf Nodes (3500 items)
+    for (let i = 1; i <= 3500; i++) {
       paths.push({
         path: `/services/ux-design/cognitive-friction/metric-coordinate-${i}`,
-        lastmod: "2026-07-02",
+        lastmod: "2026-07-04",
         changefreq: "weekly",
         priority: "0.6"
       });
     }
 
-    // 2. Tactile Haptic Leaf Nodes (200 items)
-    for (let i = 1; i <= 200; i++) {
+    // 2. Tactile Haptic Leaf Nodes (3500 items)
+    for (let i = 1; i <= 3500; i++) {
       paths.push({
         path: `/services/ux-design/tactile-haptics/damper-coefficient-${i}`,
-        lastmod: "2026-07-02",
+        lastmod: "2026-07-04",
         changefreq: "weekly",
         priority: "0.6"
       });
     }
 
-    // 3. Typographic Geometry Leaf Nodes (200 items)
-    for (let i = 1; i <= 200; i++) {
+    // 3. Typographic Geometry Leaf Nodes (3500 items)
+    for (let i = 1; i <= 3500; i++) {
       paths.push({
         path: `/services/brand-strategy/typographic-geometry/golden-scale-step-${i}`,
-        lastmod: "2026-07-02",
+        lastmod: "2026-07-04",
         changefreq: "weekly",
         priority: "0.6"
       });
     }
 
-    // 4. Chromatic Math Leaf Nodes (200 items)
-    for (let i = 1; i <= 200; i++) {
+    // 4. Chromatic Math Leaf Nodes (3500 items)
+    for (let i = 1; i <= 3500; i++) {
       paths.push({
         path: `/services/brand-strategy/chromatic-math/perceptual-apca-token-${i}`,
-        lastmod: "2026-07-02",
+        lastmod: "2026-07-04",
         changefreq: "weekly",
         priority: "0.6"
       });
     }
 
-    // 5. Elastic Motion Leaf Nodes (125 items)
-    for (let i = 1; i <= 125; i++) {
+    // 5. Elastic Motion Leaf Nodes (3500 items)
+    for (let i = 1; i <= 3500; i++) {
       paths.push({
         path: `/services/web-mechanics/elastic-physics/verlet-particle-${i}`,
-        lastmod: "2026-07-02",
+        lastmod: "2026-07-04",
         changefreq: "weekly",
         priority: "0.6"
       });
     }
 
-    // 6. Zero Layout Shift Leaf Nodes (125 items)
-    for (let i = 1; i <= 125; i++) {
+    // 6. Zero Layout Shift Leaf Nodes (3500 items)
+    for (let i = 1; i <= 3500; i++) {
       paths.push({
         path: `/services/web-mechanics/layout-stability/cumulative-shift-frame-${i}`,
-        lastmod: "2026-07-02",
+        lastmod: "2026-07-04",
         changefreq: "weekly",
         priority: "0.6"
       });
@@ -348,86 +349,92 @@ Sitemap: ${origin}/sitemap.xml`;
         if (!matchedSeo) {
           if (activePath.startsWith("/services/ux-design/cognitive-friction/metric-coordinate-")) {
             const num = activePath.substring("/services/ux-design/cognitive-friction/metric-coordinate-".length);
+            const content = generateDynamicSEOContent("cognitive-friction", num);
             matchedSeo = {
-              title: `Fitts's Law Coordinate F-${num} Calibration | xnui Studio`,
-              desc: `Calibration coordinate mapping F-${num} with an operational target weight coefficient. Interactive Fitts's Law microsecond timing calculations.`,
+              title: content.title,
+              desc: content.desc,
               canonical: activePath,
               schema: {
                 "@context": "https://schema.org",
                 "@type": "WebPage",
-                "name": `Fitts's Law Coordinate F-${num} Calibration`,
+                "name": content.heading,
                 "url": `https://xnui.com${activePath}`,
-                "description": `Precision calibration coordinate F-${num} representing predictive tap-target cursor vector mechanics.`
+                "description": content.desc
               }
             };
           } else if (activePath.startsWith("/services/ux-design/tactile-haptics/damper-coefficient-")) {
             const num = activePath.substring("/services/ux-design/tactile-haptics/damper-coefficient-".length);
+            const content = generateDynamicSEOContent("tactile-haptics", num);
             matchedSeo = {
-              title: `Spring Physics Node S-${num} Coefficient | xnui Studio`,
-              desc: `Dynamic physical damping constant modeling. Simulating organic spring glass resistance coefficient node S-${num} at sub-pixel resolution.`,
+              title: content.title,
+              desc: content.desc,
               canonical: activePath,
               schema: {
                 "@context": "https://schema.org",
                 "@type": "WebPage",
-                "name": `Spring Physics Node S-${num} Coefficient`,
+                "name": content.heading,
                 "url": `https://xnui.com${activePath}`,
-                "description": `Damping constant modeling S-${num} representing glass surface touch inertia parameters.`
+                "description": content.desc
               }
             };
           } else if (activePath.startsWith("/services/brand-strategy/typographic-geometry/golden-scale-step-")) {
             const num = activePath.substring("/services/brand-strategy/typographic-geometry/golden-scale-step-".length);
+            const content = generateDynamicSEOContent("typographic-geometry", num);
             matchedSeo = {
-              title: `Swiss Typographic Scale Node R-${num} Ratio | xnui Studio`,
-              desc: `Dynamic Swiss modular typography scaling at golden ratio ratio node R-${num}. High-fidelity display responsive coordinate.`,
+              title: content.title,
+              desc: content.desc,
               canonical: activePath,
               schema: {
                 "@context": "https://schema.org",
                 "@type": "WebPage",
-                "name": `Swiss Typographic Scale Node R-${num} Ratio`,
+                "name": content.heading,
                 "url": `https://xnui.com${activePath}`,
-                "description": `Swiss ratio modular grid node R-${num} providing sub-pixel viewport scale bounds.`
+                "description": content.desc
               }
             };
           } else if (activePath.startsWith("/services/brand-strategy/chromatic-math/perceptual-apca-token-")) {
             const num = activePath.substring("/services/brand-strategy/chromatic-math/perceptual-apca-token-".length);
+            const content = generateDynamicSEOContent("chromatic-math", num);
             matchedSeo = {
-              title: `APCA Contrast Metric Token P-${num} Perceptual | xnui Studio`,
-              desc: `Advanced Predictive Contrast Algorithm color compliance metric token P-${num} for absolute contrast parity in luxury interfaces.`,
+              title: content.title,
+              desc: content.desc,
               canonical: activePath,
               schema: {
                 "@context": "https://schema.org",
                 "@type": "WebPage",
-                "name": `APCA Contrast Metric Token P-${num} Perceptual`,
+                "name": content.heading,
                 "url": `https://xnui.com${activePath}`,
-                "description": `Predictive APCA token P-${num} contrast calculations for high-density layouts.`
+                "description": content.desc
               }
             };
           } else if (activePath.startsWith("/services/web-mechanics/elastic-physics/verlet-particle-")) {
             const num = activePath.substring("/services/web-mechanics/elastic-physics/verlet-particle-".length);
+            const content = generateDynamicSEOContent("elastic-physics", num);
             matchedSeo = {
-              title: `Verlet Kinetic Canvas Vector V-${num} Constraint | xnui Studio`,
-              desc: `Mass-spring cloth simulation particle V-${num} calculating coordinates, gravity friction decay, and kinetic snapping constraints.`,
+              title: content.title,
+              desc: content.desc,
               canonical: activePath,
               schema: {
                 "@context": "https://schema.org",
                 "@type": "WebPage",
-                "name": `Verlet Kinetic Canvas Vector V-${num} Constraint`,
+                "name": content.heading,
                 "url": `https://xnui.com${activePath}`,
-                "description": `Verlet constraint coordinate V-${num} specifying mass properties on interactive canvas.`
+                "description": content.desc
               }
             };
           } else if (activePath.startsWith("/services/web-mechanics/layout-stability/cumulative-shift-frame-")) {
             const num = activePath.substring("/services/web-mechanics/layout-stability/cumulative-shift-frame-".length);
+            const content = generateDynamicSEOContent("layout-stability", num);
             matchedSeo = {
-              title: `CLS Skeleton Coordinate Frame C-${num} Guard | xnui Studio`,
-              desc: `Layout aspect-ratio bounding skeleton frame guard C-${num} guaranteeing absolute layout shift stability in high-performance webs.`,
+              title: content.title,
+              desc: content.desc,
               canonical: activePath,
               schema: {
                 "@context": "https://schema.org",
                 "@type": "WebPage",
-                "name": `CLS Skeleton Coordinate Frame C-${num} Guard`,
+                "name": content.heading,
                 "url": `https://xnui.com${activePath}`,
-                "description": `Zero layout shift aspect container C-${num} preventing dynamic document shift.`
+                "description": content.desc
               }
             };
           } else {

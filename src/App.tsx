@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "motion/react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
+import { generateDynamicSEOContent } from "./lib/seoGenerator";
 
 // Lazy load non-critical sections below-the-fold
 const Services = lazy(() => import("./components/Services"));
@@ -623,86 +624,22 @@ export default function App() {
 
       if (isLeafMatch) {
         const parts = leafSubPageId.split("-leaf-");
+        const type = parts[0];
         const num = parts[1];
-        if (leafSubPageId.startsWith("cognitive-friction")) {
-          seo = {
-            title: `Fitts's Law Coordinate F-${num} Calibration | xnui Studio`,
-            desc: `Calibration coordinate mapping F-${num} with an operational target weight coefficient. Interactive Fitts's Law microsecond timing calculations.`,
-            canonical: pathname
-          };
-          activeSchema = {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": `Fitts's Law Coordinate F-${num} Calibration`,
-            "url": `${window.location.origin}${pathname}`,
-            "description": `Precision calibration coordinate F-${num} representing predictive tap-target cursor vector mechanics.`
-          };
-        } else if (leafSubPageId.startsWith("tactile-haptics")) {
-          seo = {
-            title: `Spring Physics Node S-${num} Coefficient | xnui Studio`,
-            desc: `Dynamic physical damping constant modeling. Simulating organic spring glass resistance coefficient node S-${num} at sub-pixel resolution.`,
-            canonical: pathname
-          };
-          activeSchema = {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": `Spring Physics Node S-${num} Coefficient`,
-            "url": `${window.location.origin}${pathname}`,
-            "description": `Damping constant modeling S-${num} representing glass surface touch inertia parameters.`
-          };
-        } else if (leafSubPageId.startsWith("typographic-geometry")) {
-          seo = {
-            title: `Swiss Typographic Scale Node R-${num} Ratio | xnui Studio`,
-            desc: `Dynamic Swiss modular typography scaling at golden ratio ratio node R-${num}. High-fidelity display responsive coordinate.`,
-            canonical: pathname
-          };
-          activeSchema = {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": `Swiss Typographic Scale Node R-${num} Ratio`,
-            "url": `${window.location.origin}${pathname}`,
-            "description": `Swiss ratio modular grid node R-${num} providing sub-pixel viewport scale bounds.`
-          };
-        } else if (leafSubPageId.startsWith("chromatic-math")) {
-          seo = {
-            title: `APCA Contrast Metric Token P-${num} Perceptual | xnui Studio`,
-            desc: `Advanced Predictive Contrast Algorithm color compliance metric token P-${num} for absolute contrast parity in luxury interfaces.`,
-            canonical: pathname
-          };
-          activeSchema = {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": `APCA Contrast Metric Token P-${num} Perceptual`,
-            "url": `${window.location.origin}${pathname}`,
-            "description": `Predictive APCA token P-${num} contrast calculations for high-density layouts.`
-          };
-        } else if (leafSubPageId.startsWith("elastic-physics")) {
-          seo = {
-            title: `Verlet Kinetic Canvas Vector V-${num} Constraint | xnui Studio`,
-            desc: `Mass-spring cloth simulation particle V-${num} calculating coordinates, gravity friction decay, and kinetic snapping constraints.`,
-            canonical: pathname
-          };
-          activeSchema = {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": `Verlet Kinetic Canvas Vector V-${num} Constraint`,
-            "url": `${window.location.origin}${pathname}`,
-            "description": `Verlet constraint coordinate V-${num} specifying mass properties on interactive canvas.`
-          };
-        } else if (leafSubPageId.startsWith("layout-stability")) {
-          seo = {
-            title: `CLS Skeleton Coordinate Frame C-${num} Guard | xnui Studio`,
-            desc: `Layout aspect-ratio bounding skeleton frame guard C-${num} guaranteeing absolute layout shift stability in high-performance webs.`,
-            canonical: pathname
-          };
-          activeSchema = {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": `CLS Skeleton Coordinate Frame C-${num} Guard`,
-            "url": `${window.location.origin}${pathname}`,
-            "description": `Zero layout shift aspect container C-${num} preventing dynamic document shift.`
-          };
-        }
+        const content = generateDynamicSEOContent(type, num);
+        
+        seo = {
+          title: content.title,
+          desc: content.desc,
+          canonical: pathname
+        };
+        activeSchema = {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": content.heading,
+          "url": `${window.location.origin}${pathname}`,
+          "description": content.desc
+        };
       }
       
       // 1. Dynamic Title Update
