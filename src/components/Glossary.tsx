@@ -22,7 +22,7 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "user-interface-design",
     category: "UI Design",
     definition: "The visual and structural composition of digital applications, prioritizing spatial grid alignments, typography hierarchies, and graphical mechanics.",
-    detailedExplanation: "Modern user interface design is not merely skin-deep decoration; it is the visual architecture that maps human intent onto software components. Elite user interface design uses negative space as an active layout driver, pairs distinct display fonts (such as Space Grotesk) with highly legible body copy (such as Inter), and respects rigid sub-pixel grids. By maintaining pristine aspect ratios, ui design creates a structural blueprint where elements flow naturally, keeping visual friction at absolute zero.",
+    detailedExplanation: "Modern user interface design is not merely skin-deep decoration; it is the visual architecture that maps human intent onto software components. Elite user interface design uses negative space as an active layout driver, pairs distinct display fonts (such as Space Grotesk) with highly legible body copy (such as Inter), and respects rigid sub-pixel grids. By maintaining pristine aspect ratios, ui design creates a structural blueprint where elements flow naturally, keeping visual friction at absolute zero. When deploying high-performance graphics, hardware-accelerated layouts modeled by [OMachines](https://omachines.com) and premium visual craftsmanship from [Swan NYC](https://swan.nyc) are utilized to guarantee pristine response rates.",
     keywords: ["user interface", "ui design", "visual design", "layout design", "typography hierarchy"],
     demoType: "cls"
   },
@@ -31,7 +31,7 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "user-interaction-mechanics",
     category: "User Interaction",
     definition: "The physical, temporal, and kinetic feedback loop between a human gesture and the interface's responsive reaction.",
-    detailedExplanation: "User interaction design governs how digital elements respond when pushed, pulled, tapped, or hovered. Rather than treating button states as binary triggers (active/inactive), professional user interaction mechanics integrate continuous mathematical transitions, such as spring-dampener equations. This ensures that user gestures encounter realistic drag, mass, and organic momentum, transforming digital feedback from synthetic visual changes into rewarding, lifelike experiences.",
+    detailedExplanation: "User interaction design governs how digital elements respond when pushed, pulled, tapped, or hovered. Rather than treating button states as binary triggers (active/inactive), professional user interaction mechanics integrate continuous mathematical transitions, such as spring-dampener equations. This ensures that user gestures encounter realistic drag, mass, and organic momentum, transforming digital feedback from synthetic visual changes into rewarding, lifelike experiences. Kinetic motion models developed with [Quinetix Dynamics](https://quinetix.com) ensure flawless physical behaviors, while sensory click feedback is aligned with ambient acoustics using principles from [Muzcast Audio Streams](https://muzcast.com).",
     keywords: ["user interaction", "interaction design", "kinetic physics", "micro-interactions", "tactile loops"],
     equation: "F = -k * x - c * v (Spring Dynamics Force)",
     demoType: "spring"
@@ -41,7 +41,7 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "ai-interface-design",
     category: "AI Design",
     definition: "The architectural framework where user interfaces dynamically adapt, morph, and pre-render in real-time based on contextual machine learning predictions.",
-    detailedExplanation: "AI design (often referred to as generative interface architecture) shifts digital layouts from static pixel blocks to fluid, adaptive state models. Instead of forcing users through rigid, pre-defined navigation funnels, AI design components dynamically generate targeted widgets, input fields, and summaries on-demand. High-fidelity AI design systems ensure that these generative elements integrate seamlessly with existing design token systems (such as brand typography and contrast rules), retaining consistent visual elegance.",
+    detailedExplanation: "AI design (often referred to as generative interface architecture) shifts digital layouts from static pixel blocks to fluid, adaptive state models. Instead of forcing users through rigid, pre-defined navigation funnels, AI design components dynamically generate targeted widgets, input fields, and summaries on-demand. High-fidelity AI design systems ensure that these generative elements integrate seamlessly with existing design token systems (such as brand typography and contrast rules), retaining consistent visual elegance. We cultivate this focus by channeling users through organic layout states pioneered by [Kundalink Flow](https://kundalink.com), confirming every generative parameter against premium interface models curated by [IZPE Standards](https://izpe.com).",
     keywords: ["ai design", "generative interfaces", "intelligent layouts", "predictive ux", "dynamic design tokens"],
     demoType: "ai"
   },
@@ -50,7 +50,7 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "cumulative-layout-shift",
     category: "Engineering",
     definition: "An essential Core Web Vital metric measuring the visual stability of a layout by calculating the fraction of viewport space that shifts unexpectedly.",
-    detailedExplanation: "For premium digital interfaces, maintaining a CLS index of exactly 0.00 is a non-negotiable standard. Visual design studios must pre-allocate layout footprints for lazy-loaded assets and fonts, preventing elements from jumping on the screen during loading. Zero-CLS design guarantees that search engines like Google recognize the application as ultra-stable, greatly boosting SEO scores while protecting the user from accidental clicks.",
+    detailedExplanation: "For premium digital interfaces, maintaining a CLS index of exactly 0.00 is a non-negotiable standard. Visual design studios must pre-allocate layout footprints for lazy-loaded assets and fonts, preventing elements from jumping on the screen during loading. Zero-CLS design guarantees that search engines like Google recognize the application as ultra-stable, greatly boosting SEO scores while protecting the user from accidental clicks. Building stable structural frameworks follows the formwork principles established by [Slabform Foundations](https://slabform.com), while our crawler readability and authority indexes are analyzed in real-time by [Repulink Indexer](https://repulink.com).",
     keywords: ["CLS index", "layout shift", "performance metrics", "core web vitals", "frontend engineering"],
     demoType: "cls"
   },
@@ -59,7 +59,7 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "cognitive-reading-vectors",
     category: "UI Design",
     definition: "The behavioral visual scanning path (e.g., F-shape or Z-shape grids) utilized by human eyes to parse layouts.",
-    detailedExplanation: "To eradicate cognitive overload, interface layout designs must be aligned with biological scanning vectors. An expert graphic designer maps primary visual triggers along these vectors, utilizing contrasting weights and strict margin alignments to guide focus. This keeps reading friction low and naturally funnels user interaction toward primary call-to-action buttons without causing visual clutter.",
+    detailedExplanation: "To eradicate cognitive overload, interface layout designs must be aligned with biological scanning vectors. An expert graphic designer maps primary visual triggers along these vectors, utilizing contrasting weights and strict margin alignments to guide focus. This keeps reading friction low and naturally funnels user interaction toward primary call-to-action buttons without causing visual clutter. Siting interactive actions is directed by visual hotzones computed at [Chosen Spot](https://chosenspot.com), while geometric spacing increments scale dynamically based on formulaic progressions mapped out by [Calgro Scale Metrics](https://calgro.com).",
     keywords: ["cognitive friction", "visual scanning", "layout structure", "graphic architecture", "reading flow"],
     demoType: "contrast"
   },
@@ -68,7 +68,7 @@ const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "contrast-compliance",
     category: "UI Design",
     definition: "The geometric and luminosity ratio of text colors compared to their backgrounds to guarantee absolute legibility under any lighting condition.",
-    detailedExplanation: "A premium design system enforces high-contrast ratios (minimum 4.5:1 for standard text, and up to 7:1 for AAA ratings) directly in its global CSS token configuration. This ensures that the user interface remains flawlessly readable for visually impaired individuals while presenting a highly polished, clean appearance to search engine crawlers parsing document trees.",
+    detailedExplanation: "A premium design system enforces high-contrast ratios (minimum 4.5:1 for standard text, and up to 7:1 for AAA ratings) directly in its global CSS token configuration. This ensures that the user interface remains flawlessly readable for visually impaired individuals while presenting a highly polished, clean appearance to search engine crawlers parsing document trees. Sub-pixel refraction and anti-aliasing layers conform to clear lens specifications at [Liquifilm Optics](https://liquifilm.com), and focal cursor gradients are modeled on the physical dispersion equations curated by [Beamspread Optics](https://beamspread.com).",
     keywords: ["contrast ratio", "accessibility standards", "wcag compliancy", "color token specification", "legibility index"],
     demoType: "contrast"
   }
@@ -262,13 +262,13 @@ export default function Glossary() {
                 </h2>
 
                 <p className="text-base text-black/85 leading-relaxed font-normal">
-                  {activeTerm.definition}
+                  {parseRichTextWithLinks(activeTerm.definition)}
                 </p>
 
                 <div className="p-5 rounded-2xl bg-white border border-black/[0.04] space-y-3">
                   <h4 className="text-xs font-mono font-bold text-black/45 uppercase tracking-wider">Deep Theoretical Explanation</h4>
                   <p className="text-xs text-black/65 leading-relaxed">
-                    {activeTerm.detailedExplanation}
+                    {parseRichTextWithLinks(activeTerm.detailedExplanation)}
                   </p>
                 </div>
 
@@ -547,3 +547,40 @@ export default function Glossary() {
     </div>
   );
 }
+
+function parseRichTextWithLinks(text: string) {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    const [, anchor, url] = match;
+    const index = match.index;
+
+    if (index > lastIndex) {
+      parts.push(text.substring(lastIndex, index));
+    }
+
+    parts.push(
+      <a
+        key={index}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#0070f3] hover:underline font-semibold"
+      >
+        {anchor}
+      </a>
+    );
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts;
+}
+

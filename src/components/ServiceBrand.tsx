@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowRight, Compass, Eye, Feather, Layers, Palette, Sparkles, Star, ChevronRight, Grid } from "lucide-react";
+import Breadcrumbs from "./Breadcrumbs";
 
 export default function ServiceBrand() {
   const customEase = [0.19, 1, 0.22, 1] as const;
@@ -53,12 +54,8 @@ export default function ServiceBrand() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs font-mono text-black/45 mb-8">
-          <a href="/" className="hover:text-black transition-colors">xnui</a>
-          <span>&middot;</span>
-          <a href="/services" className="hover:text-black transition-colors">Services</a>
-          <span>&middot;</span>
-          <span className="text-[#0070f3] font-semibold">Brand Strategy</span>
+        <div className="mb-8">
+          <Breadcrumbs />
         </div>
 
         {/* Hero Section */}

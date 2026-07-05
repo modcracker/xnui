@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { generateDynamicSEOContent } from "../lib/seoGenerator";
+import Breadcrumbs from "./Breadcrumbs";
 import { 
   Zap, 
   ArrowLeft, 
@@ -405,14 +406,12 @@ export default function ServiceDeepDive({ subPageId }: { subPageId: string }) {
   // Nav to previous page helpers
   const handleBackToParent = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.history.pushState({}, "", page.parentPath);
-    window.dispatchEvent(new Event("popstate"));
+    window.location.hash = "#" + page.parentPath;
   };
 
   // Quick navigation to other deep dives
   const navigateToSubPage = (path: string) => {
-    window.history.pushState({}, "", path);
-    window.dispatchEvent(new Event("popstate"));
+    window.location.hash = "#" + path;
   };
 
   // Contrast checking calculation
@@ -450,39 +449,8 @@ export default function ServiceDeepDive({ subPageId }: { subPageId: string }) {
     <div id={`deepdive-${page.id}`} className="py-24 px-6 md:px-12 max-w-7xl mx-auto min-h-screen">
       
       {/* Breadcrumbs */}
-      <div className="mb-10">
-        <div className="flex items-center gap-2 text-xs font-mono text-black/45 mb-4">
-          <a href="/" className="hover:text-black transition-colors">xnui</a>
-          <ChevronRight size={10} />
-          <a href="/services" className="hover:text-black transition-colors">Services</a>
-          <ChevronRight size={10} />
-          <a 
-            href={page.parentPath} 
-            onClick={handleBackToParent}
-            className="hover:text-black transition-colors text-indigo-600 font-semibold"
-          >
-            {page.parentName}
-          </a>
-          <ChevronRight size={10} />
-          {isLeaf ? (
-            <>
-              <a 
-                href={page.path}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigateToSubPage(page.path);
-                }}
-                className="hover:text-black transition-colors text-indigo-600 font-semibold"
-              >
-                {page.name}
-              </a>
-              <ChevronRight size={10} />
-              <span className="text-[#0070f3] font-bold">Calibration Node #{leafId}</span>
-            </>
-          ) : (
-            <span className="text-[#0070f3] font-bold">{page.name}</span>
-          )}
-        </div>
+      <div className="mb-10 space-y-4">
+        <Breadcrumbs />
 
         {isLeaf ? (
           <button 
@@ -1260,7 +1228,7 @@ export default function ServiceDeepDive({ subPageId }: { subPageId: string }) {
               <div className="space-y-4 text-xs md:text-sm font-light leading-relaxed text-slate-300">
                 <p className="font-mono text-[10px] text-indigo-300 uppercase tracking-wider mb-2">★ AUDITED INTELLECTUAL SPECIFICATION</p>
                 <div className="whitespace-pre-line text-slate-800 bg-white/95 p-6 rounded-2xl border border-white/10 shadow-lg font-sans">
-                  {leafCopy}
+                  {parseRichTextWithLinks(leafCopy)}
                 </div>
               </div>
 
@@ -1342,3 +1310,40 @@ export default function ServiceDeepDive({ subPageId }: { subPageId: string }) {
     </div>
   );
 }
+
+function parseRichTextWithLinks(text: string) {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    const [, anchor, url] = match;
+    const index = match.index;
+
+    if (index > lastIndex) {
+      parts.push(text.substring(lastIndex, index));
+    }
+
+    parts.push(
+      <a
+        key={index}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#0070f3] hover:underline font-semibold"
+      >
+        {anchor}
+      </a>
+    );
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts;
+}
+

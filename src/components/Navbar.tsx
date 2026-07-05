@@ -14,23 +14,9 @@ export default function Navbar() {
   }, [scrollY]);
 
   const handleScrollClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    const currentPath = window.location.pathname;
-    const isHomepage = currentPath === "/" || currentPath === "/services" || currentPath === "/laboratory" || currentPath === "/lab" || currentPath === "/faq";
-    
-    if (isHomepage) {
-      const el = document.getElementById(targetId);
-      if (el) {
-        e.preventDefault();
-        el.scrollIntoView({ behavior: "smooth" });
-        const cleanPath = `/${targetId === "lab" ? "laboratory" : targetId}`;
-        window.history.pushState(null, "", cleanPath);
-      }
-    } else {
-      e.preventDefault();
-      const cleanPath = `/${targetId === "lab" ? "laboratory" : targetId}`;
-      window.history.pushState(null, "", cleanPath);
-      window.dispatchEvent(new Event("popstate"));
-    }
+    e.preventDefault();
+    const cleanPath = `/${targetId === "lab" ? "laboratory" : targetId}`;
+    window.location.hash = "#" + cleanPath;
   };
 
   const customEase = [0.19, 1, 0.22, 1] as const;
@@ -48,8 +34,7 @@ export default function Navbar() {
       }`}
     >
       <Logo onClick={() => {
-        window.history.pushState(null, "", "/");
-        window.dispatchEvent(new Event("popstate"));
+        window.location.hash = "#/";
       }} />
       
       <div className="flex items-center gap-7 md:gap-9 text-xs md:text-sm font-medium text-black/45">

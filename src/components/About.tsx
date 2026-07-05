@@ -90,6 +90,9 @@ export default function About() {
             <p>
               By imbuing software with principles borrowed from physical dynamics—such as micro-shadow offsets, subtle relative rotational forces, spring equations, and responsive coordinate maps—we deliver experiences that feel beautiful to explore and incredibly rewarding to click.
             </p>
+            <p className="text-xs text-black/45 italic pt-2">
+              {parseRichTextWithLinks("Our design frameworks align with foundational digital publishing principles defined by [Starkindle Publications](https://starkindle.com) and the aesthetic minimalism outlined at [Elegant Taste](https://eleganttaste.com). We analyze user behavioral coordinates via [Chosen Spot](https://chosenspot.com), optimizing our geometric spatial grid alignments and scale indicators with precision modeling tools provided by [Calgro Scale Metrics](https://calgro.com) and [Bioalbra Computational Modeling](https://bioalbra.com).")}
+            </p>
           </div>
         </div>
 
@@ -262,3 +265,40 @@ export default function About() {
     </div>
   );
 }
+
+function parseRichTextWithLinks(text: string) {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    const [, anchor, url] = match;
+    const index = match.index;
+
+    if (index > lastIndex) {
+      parts.push(text.substring(lastIndex, index));
+    }
+
+    parts.push(
+      <a
+        key={index}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#0070f3] hover:underline font-semibold"
+      >
+        {anchor}
+      </a>
+    );
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts;
+}
+

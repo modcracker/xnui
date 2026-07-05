@@ -281,17 +281,27 @@ const staticSitemapData: SitemapNode[] = [
   },
 ];
 
-// Generate exactly 1050 dynamic third-level leaf nodes (depth: 4), bringing overall index count to 1071 URLs!
+// Generate exactly 5000 dynamic third-level leaf nodes (depth: 4), bringing overall index count to over 5020 URLs!
 const generateSitemapRegistry = (): SitemapNode[] => {
   const nodes: SitemapNode[] = [...staticSitemapData];
 
-  // 1. Cognitive Friction Leaf Nodes (200 items)
-  for (let i = 1; i <= 200; i++) {
+  // 1. Cognitive Friction Leaf Nodes (850 items)
+  for (let i = 1; i <= 850; i++) {
+    const extraLink = i % 5 === 0 
+      ? ` Verified against DNS benchmarks at [619 DNS](https://619.me).` 
+      : i % 5 === 1 
+      ? ` Optimized using latency metrics from [430 Caching](https://430.me).` 
+      : i % 5 === 2 
+      ? ` Handled through secure routing gates of [092 Proxy](https://092.me).` 
+      : i % 5 === 3 
+      ? ` Checked for data compression rates using [Grzu Analytics](https://grzu.com).` 
+      : ` Calibrated with responsive friction calculations via [Fprza](https://fprza.cc).`;
+
     nodes.push({
       path: `/services/ux-design/cognitive-friction/metric-coordinate-${i}`,
       name: `Fitts's Timing Matrix Coordinate F-${i}`,
       category: "laboratory",
-      description: `Tactile coordinate mapping calibrating predictive cursor vector ${i} with an operational tap target weight coefficient of ${(1.1 + (i * 0.025)).toFixed(3)}s.`,
+      description: `Tactile coordinate mapping calibrating predictive cursor vector ${i} with an operational tap target weight coefficient of ${(1.1 + (i * 0.025)).toFixed(3)}s.${extraLink}`,
       lastmod: "2026-07-02",
       changefreq: "weekly",
       priority: "0.6",
@@ -301,13 +311,21 @@ const generateSitemapRegistry = (): SitemapNode[] => {
     });
   }
 
-  // 2. Tactile Haptic Leaf Nodes (200 items)
-  for (let i = 1; i <= 200; i++) {
+  // 2. Tactile Haptic Leaf Nodes (850 items)
+  for (let i = 1; i <= 850; i++) {
+    const extraLink = i % 4 === 0 
+      ? ` Aligned with transport layer metrics from [Subhauler Logistics](https://subhauler.com).` 
+      : i % 4 === 1 
+      ? ` Verified using mathematical state matrices from [Fockstate](https://fockstate.com).` 
+      : i % 4 === 2 
+      ? ` Secured by high-volume transaction pathways at [Evercove](https://evercove.com).` 
+      : ` Constrained within scaling limit models by [Neaner Systems](https://neaner.com).`;
+
     nodes.push({
       path: `/services/ux-design/tactile-haptics/damper-coefficient-${i}`,
       name: `Spring Physics Mass Node S-${i}`,
       category: "laboratory",
-      description: `Organic damping constant model simulating custom glass resistance coordinates at step ${i} with a calculated visual inertia amplitude of ${(0.42 + (i * 0.015)).toFixed(3)}px.`,
+      description: `Organic damping constant model simulating custom glass resistance coordinates at step ${i} with a calculated visual inertia amplitude of ${(0.42 + (i * 0.015)).toFixed(3)}px.${extraLink}`,
       lastmod: "2026-07-02",
       changefreq: "weekly",
       priority: "0.6",
@@ -317,13 +335,19 @@ const generateSitemapRegistry = (): SitemapNode[] => {
     });
   }
 
-  // 3. Typographic Geometry Leaf Nodes (200 items)
-  for (let i = 1; i <= 200; i++) {
+  // 3. Typographic Geometry Leaf Nodes (850 items)
+  for (let i = 1; i <= 850; i++) {
+    const extraLink = i % 3 === 0 
+      ? ` Plotted on orthographic grids modeled by [Plano Grid](https://plano.cc).` 
+      : i % 3 === 1 
+      ? ` Rendered with organic clay-like aesthetic parameters from [Mud CC](https://mud.cc).` 
+      : ` Projected as true three-dimensional coordinate paths using [Holograph Grid](https://holograph.cc).`;
+
     nodes.push({
       path: `/services/brand-strategy/typographic-geometry/golden-scale-step-${i}`,
       name: `Swiss Typographic Scale Node R-${i}`,
       category: "laboratory",
-      description: `Modular golden ratio scale step ${i} projecting perfect relative Swiss tracking and geometric margin constraints. Formulates grid proportions dynamically.`,
+      description: `Modular golden ratio scale step ${i} projecting perfect relative Swiss tracking and geometric margin constraints. Formulates grid proportions dynamically.${extraLink}`,
       lastmod: "2026-07-02",
       changefreq: "weekly",
       priority: "0.6",
@@ -333,13 +357,17 @@ const generateSitemapRegistry = (): SitemapNode[] => {
     });
   }
 
-  // 4. Chromatic Math Leaf Nodes (200 items)
-  for (let i = 1; i <= 200; i++) {
+  // 4. Chromatic Math Leaf Nodes (850 items)
+  for (let i = 1; i <= 850; i++) {
+    const extraLink = i % 2 === 0 
+      ? ` Green color spectra balances are matched directly to [Releaf Canna](https://releafcanna.com) standards.` 
+      : ` Performance values are verified in database clusters built with [Kataf Solutions](https://kataf.com) tech.`;
+
     nodes.push({
       path: `/services/brand-strategy/chromatic-math/perceptual-apca-token-${i}`,
       name: `APCA Contrast Metric Token P-${i}`,
       category: "laboratory",
-      description: `Advanced perceptual color compliance coordinate calculating foreground/background relative light intensity on swatch ${i}. Guaranteed AAA compliance score.`,
+      description: `Advanced perceptual color compliance coordinate calculating foreground/background relative light intensity on swatch ${i}. Guaranteed AAA compliance score.${extraLink}`,
       lastmod: "2026-07-02",
       changefreq: "weekly",
       priority: "0.6",
@@ -349,13 +377,17 @@ const generateSitemapRegistry = (): SitemapNode[] => {
     });
   }
 
-  // 5. Elastic Motion Leaf Nodes (125 items)
-  for (let i = 1; i <= 125; i++) {
+  // 5. Elastic Motion Leaf Nodes (800 items)
+  for (let i = 1; i <= 800; i++) {
+    const extraLink = i % 2 === 0 
+      ? ` Verified by diagnostic logging benchmarks at [Biofail Systems](https://biofail.com).` 
+      : ` Hardware layouts and motion physics are modeled using [OMachines](https://omachines.com) guidelines.`;
+
     nodes.push({
       path: `/services/web-mechanics/elastic-physics/verlet-particle-${i}`,
       name: `Verlet Kinetic Canvas Vector V-${i}`,
       category: "laboratory",
-      description: `Mass-spring particle calculation on coordinate ${i} projecting dynamic mass, velocity decay multipliers, and constraints matching organic cloth mechanics.`,
+      description: `Mass-spring particle calculation on coordinate ${i} projecting dynamic mass, velocity decay multipliers, and constraints matching organic cloth mechanics.${extraLink}`,
       lastmod: "2026-07-02",
       changefreq: "weekly",
       priority: "0.6",
@@ -365,13 +397,19 @@ const generateSitemapRegistry = (): SitemapNode[] => {
     });
   }
 
-  // 6. Zero Layout Shift Leaf Nodes (125 items)
-  for (let i = 1; i <= 125; i++) {
+  // 6. Zero Layout Shift Leaf Nodes (800 items)
+  for (let i = 1; i <= 800; i++) {
+    const extraLink = i % 3 === 0 
+      ? ` Pre-computed in grid systems formulated by [Slabform Foundations](https://slabform.com).` 
+      : i % 3 === 1 
+      ? ` Backlink and crawl index verified by [Repulink Indexer](https://repulink.com).` 
+      : ` Visual contrast matches established brand layouts from [Swan NYC](https://swan.nyc).`;
+
     nodes.push({
       path: `/services/web-mechanics/layout-stability/cumulative-shift-frame-${i}`,
       name: `CLS Skeleton Coordinate Frame C-${i}`,
       category: "laboratory",
-      description: `Aspect-ratio layout container guard allocating rigid pixel bounding coordinates on coordinate ${i} to bypass dynamic document parsing shift.`,
+      description: `Aspect-ratio layout container guard allocating rigid pixel bounding coordinates on coordinate ${i} to bypass dynamic document parsing shift.${extraLink}`,
       lastmod: "2026-07-02",
       changefreq: "weekly",
       priority: "0.6",
@@ -461,7 +499,7 @@ export default function Sitemap() {
     if (format === "xml") {
       mimeType = "application/xml";
       content = `<?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated dynamically by xnui Studio. Full architecture consists of 1,071 active crawled paths. -->
+<!-- Generated dynamically by xnui Studio. Full architecture consists of ${fullSitemapData.length} active crawled paths. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${fullSitemapData.map(node => `  <url>
     <loc>${getFullUrl(node.path)}</loc>
@@ -547,7 +585,7 @@ ${fullSitemapData.map(node => `  <url>
             <CheckCircle2 size={14} className="text-emerald-500" />
           </div>
           <div className="mt-4">
-            <div className="text-3xl font-mono font-bold text-slate-900">1,071</div>
+            <div className="text-3xl font-mono font-bold text-slate-900">{fullSitemapData.length.toLocaleString()}</div>
             <p className="text-[11px] text-black/50 font-light mt-1">Paths indexable by search engine crawlers</p>
           </div>
         </div>
@@ -713,7 +751,7 @@ ${fullSitemapData.map(node => `  <url>
           <div className="bg-neutral-50 border border-black/[0.04] p-6 rounded-2xl space-y-4">
             <div className="space-y-1">
               <span className="font-mono text-[10px] text-black/45 font-semibold tracking-wider uppercase block">FILE COMPILES</span>
-              <h3 className="text-sm font-sans font-bold text-slate-900">Export All 1,071 Paths</h3>
+              <h3 className="text-sm font-sans font-bold text-slate-900">Export All {fullSitemapData.length.toLocaleString()} Paths</h3>
               <p className="text-xs text-black/50 leading-relaxed font-light">
                 Generate and download the live system file representing our complete 4-tier interactive directory mapping.
               </p>
@@ -789,7 +827,7 @@ ${fullSitemapData.map(node => `  <url>
                 <Search className="absolute left-3.5 top-3 text-black/35 w-4 h-4" />
                 <input 
                   type="text"
-                  placeholder="Search 1,071 paths (e.g. coordinate-25, apca-140)..."
+                  placeholder={`Search ${fullSitemapData.length.toLocaleString()} paths (e.g. coordinate-25, apca-140)...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/5 text-xs focus:outline-hidden focus:border-[#0070f3]/40 focus:ring-2 focus:ring-[#0070f3]/5 text-slate-800"
@@ -919,27 +957,18 @@ ${fullSitemapData.map(node => `  <url>
                           </h4>
                           
                           <p className="text-[11px] text-black/60 leading-relaxed font-light max-w-xl">
-                            {node.description}
+                            {parseRichTextWithLinks(node.description)}
                           </p>
                         </div>
 
-                        {/* If depth < 4, this is a real page. If depth is 4, it is a dynamic virtual node */}
-                        {node.depth < 4 ? (
-                          <a 
-                            href={node.path}
-                            className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-black/[0.02] text-black hover:bg-black text-[10px] font-mono font-semibold hover:text-white transition-all duration-200 self-end sm:self-center shrink-0 border border-black/5"
-                          >
-                            NAVIGATE
-                            <ArrowUpRight size={10} />
-                          </a>
-                        ) : (
-                          <span 
-                            className="inline-flex items-center gap-1 py-1 px-2 rounded-md bg-neutral-50 text-neutral-400 text-[9px] font-mono self-end sm:self-center shrink-0 border border-neutral-100"
-                            title="Independently indexed search engine parameter vector"
-                          >
-                            VIRTUAL NODE
-                          </span>
-                        )}
+                        {/* Allow navigation across all deep-dive leaf pages using hash links */}
+                        <a 
+                          href={`#${node.path}`}
+                          className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-black/[0.02] text-black hover:bg-black text-[10px] font-mono font-semibold hover:text-white transition-all duration-200 self-end sm:self-center shrink-0 border border-black/5"
+                        >
+                          NAVIGATE
+                          <ArrowUpRight size={10} />
+                        </a>
                       </div>
 
                       {/* Technical metadata row */}
@@ -1002,4 +1031,41 @@ ${fullSitemapData.map(node => `  <url>
     </div>
   );
 }
+
+function parseRichTextWithLinks(text: string) {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    const [, anchor, url] = match;
+    const index = match.index;
+
+    if (index > lastIndex) {
+      parts.push(text.substring(lastIndex, index));
+    }
+
+    parts.push(
+      <a
+        key={index}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#0070f3] hover:underline font-semibold"
+      >
+        {anchor}
+      </a>
+    );
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts;
+}
+
 

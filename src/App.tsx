@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import { generateDynamicSEOContent } from "./lib/seoGenerator";
+import { HashRouter, useHashRouter } from "./components/HashRouter";
 
 // Lazy load non-critical sections below-the-fold
 const Services = lazy(() => import("./components/Services"));
@@ -404,14 +405,20 @@ const JSONLDMapping: Record<string, any> = {
 };
 
 export default function App() {
+  return (
+    <HashRouter>
+      <AppInner />
+    </HashRouter>
+  );
+}
+
+function AppInner() {
+  const { pathname } = useHashRouter();
   const [currentPage, setCurrentPage] = useState<'home' | 'contact' | 'partnership' | 'about' | 'faq' | 'privacy' | 'terms' | 'sitemap' | 'services-ux' | 'services-brand' | 'services-web' | 'landing-enterprise' | 'funnel-audit' | 'glossary' | 'deep-dive'>('home');
   const [currentSubPageId, setCurrentSubPageId] = useState<string>("cognitive-friction");
 
   useEffect(() => {
     const handleRoute = () => {
-      const pathname = window.location.pathname;
-      const hash = window.location.hash || "";
-
       let routeKey = "home";
       let isLeafMatch = false;
       let leafSubPageId = "";
@@ -450,47 +457,6 @@ export default function App() {
         isLeafMatch = true;
       }
 
-      // Fallback for hash dynamic urls
-      if (!isLeafMatch) {
-        if (hash.startsWith("#/services/ux-design/cognitive-friction/metric-coordinate-") || hash.startsWith("#services/ux-design/cognitive-friction/metric-coordinate-")) {
-          const prefix = hash.startsWith("#/") ? "#/services/ux-design/cognitive-friction/metric-coordinate-" : "#services/ux-design/cognitive-friction/metric-coordinate-";
-          const id = hash.substring(prefix.length);
-          leafRouteKey = "cognitive-friction";
-          leafSubPageId = `cognitive-friction-leaf-${id}`;
-          isLeafMatch = true;
-        } else if (hash.startsWith("#/services/ux-design/tactile-haptics/damper-coefficient-") || hash.startsWith("#services/ux-design/tactile-haptics/damper-coefficient-")) {
-          const prefix = hash.startsWith("#/") ? "#/services/ux-design/tactile-haptics/damper-coefficient-" : "#services/ux-design/tactile-haptics/damper-coefficient-";
-          const id = hash.substring(prefix.length);
-          leafRouteKey = "tactile-haptics";
-          leafSubPageId = `tactile-haptics-leaf-${id}`;
-          isLeafMatch = true;
-        } else if (hash.startsWith("#/services/brand-strategy/typographic-geometry/golden-scale-step-") || hash.startsWith("#services/brand-strategy/typographic-geometry/golden-scale-step-")) {
-          const prefix = hash.startsWith("#/") ? "#/services/brand-strategy/typographic-geometry/golden-scale-step-" : "#services/brand-strategy/typographic-geometry/golden-scale-step-";
-          const id = hash.substring(prefix.length);
-          leafRouteKey = "typographic-geometry";
-          leafSubPageId = `typographic-geometry-leaf-${id}`;
-          isLeafMatch = true;
-        } else if (hash.startsWith("#/services/brand-strategy/chromatic-math/perceptual-apca-token-") || hash.startsWith("#services/brand-strategy/chromatic-math/perceptual-apca-token-")) {
-          const prefix = hash.startsWith("#/") ? "#/services/brand-strategy/chromatic-math/perceptual-apca-token-" : "#services/brand-strategy/chromatic-math/perceptual-apca-token-";
-          const id = hash.substring(prefix.length);
-          leafRouteKey = "chromatic-math";
-          leafSubPageId = `chromatic-math-leaf-${id}`;
-          isLeafMatch = true;
-        } else if (hash.startsWith("#/services/web-mechanics/elastic-physics/verlet-particle-") || hash.startsWith("#services/web-mechanics/elastic-physics/verlet-particle-")) {
-          const prefix = hash.startsWith("#/") ? "#/services/web-mechanics/elastic-physics/verlet-particle-" : "#services/web-mechanics/elastic-physics/verlet-particle-";
-          const id = hash.substring(prefix.length);
-          leafRouteKey = "elastic-physics";
-          leafSubPageId = `elastic-physics-leaf-${id}`;
-          isLeafMatch = true;
-        } else if (hash.startsWith("#/services/web-mechanics/layout-stability/cumulative-shift-frame-") || hash.startsWith("#services/web-mechanics/layout-stability/cumulative-shift-frame-")) {
-          const prefix = hash.startsWith("#/") ? "#/services/web-mechanics/layout-stability/cumulative-shift-frame-" : "#services/web-mechanics/layout-stability/cumulative-shift-frame-";
-          const id = hash.substring(prefix.length);
-          leafRouteKey = "layout-stability";
-          leafSubPageId = `layout-stability-leaf-${id}`;
-          isLeafMatch = true;
-        }
-      }
-
       // 1. Direct path matches (HTML5 clean urls)
       if (isLeafMatch) {
         routeKey = leafRouteKey;
@@ -515,28 +481,6 @@ export default function App() {
       else if (pathname === "/services/brand-strategy/chromatic-math") { routeKey = "chromatic-math"; setCurrentSubPageId("chromatic-math"); }
       else if (pathname === "/services/web-mechanics/elastic-physics") { routeKey = "elastic-physics"; setCurrentSubPageId("elastic-physics"); }
       else if (pathname === "/services/web-mechanics/layout-stability") { routeKey = "layout-stability"; setCurrentSubPageId("layout-stability"); }
-      // 2. Legacy hash routing fallback
-      else if (hash === "#/contact" || hash === "#contact") routeKey = "contact";
-      else if (hash === "#/partnership" || hash === "#partnership") routeKey = "partnership";
-      else if (hash === "#/about" || hash === "#about") routeKey = "about";
-      else if (hash === "#/faq" || hash === "#faq") routeKey = "faq";
-      else if (hash === "#/privacy" || hash === "#privacy") routeKey = "privacy";
-      else if (hash === "#/terms" || hash === "#terms") routeKey = "terms";
-      else if (hash === "#/sitemap" || hash === "#sitemap") routeKey = "sitemap";
-      else if (hash === "#/services" || hash === "#services") routeKey = "services";
-      else if (hash === "#/laboratory" || hash === "#laboratory" || hash === "#/lab" || hash === "#lab") routeKey = "laboratory";
-      else if (hash === "#/services/ux-design") routeKey = "services-ux";
-      else if (hash === "#/services/brand-strategy") routeKey = "services-brand";
-      else if (hash === "#/services/web-mechanics") routeKey = "services-web";
-      else if (hash === "#/landing/enterprise-ux") routeKey = "landing-enterprise";
-      else if (hash === "#/funnel/audit-request") routeKey = "funnel-audit";
-      else if (hash === "#/glossary" || hash === "#glossary") routeKey = "glossary";
-      else if (hash === "#/services/ux-design/cognitive-friction") { routeKey = "cognitive-friction"; setCurrentSubPageId("cognitive-friction"); }
-      else if (hash === "#/services/ux-design/tactile-haptics") { routeKey = "tactile-haptics"; setCurrentSubPageId("tactile-haptics"); }
-      else if (hash === "#/services/brand-strategy/typographic-geometry") { routeKey = "typographic-geometry"; setCurrentSubPageId("typographic-geometry"); }
-      else if (hash === "#/services/brand-strategy/chromatic-math") { routeKey = "chromatic-math"; setCurrentSubPageId("chromatic-math"); }
-      else if (hash === "#/services/web-mechanics/elastic-physics") { routeKey = "elastic-physics"; setCurrentSubPageId("elastic-physics"); }
-      else if (hash === "#/services/web-mechanics/layout-stability") { routeKey = "layout-stability"; setCurrentSubPageId("layout-stability"); }
 
       // Set currentPage state corresponding to which page component should be active
       const isDeepDive = [
@@ -691,6 +635,10 @@ export default function App() {
       }
     };
 
+    handleRoute();
+  }, [pathname]);
+
+  useEffect(() => {
     // Global Click Interceptor to make standard anchor tags behave as seamless pushState SPA navs
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -700,25 +648,22 @@ export default function App() {
         // Only intercept local relative urls, ignore external links, targets with _blank or hashes/scroll targets
         if (
           href && 
-          href.startsWith("/") && 
+          (href.startsWith("/") || href.startsWith("#")) && 
           !href.startsWith("//") && 
           anchor.getAttribute("target") !== "_blank"
         ) {
           e.preventDefault();
-          window.history.pushState({}, "", href);
-          window.dispatchEvent(new Event("popstate"));
+          let cleanPath = href;
+          if (href.startsWith("#")) {
+            cleanPath = href.startsWith("#/") ? href.substring(1) : "/" + href.substring(1);
+          }
+          window.location.hash = "#" + cleanPath;
         }
       }
     };
 
-    handleRoute();
-    window.addEventListener("popstate", handleRoute);
-    window.addEventListener("hashchange", handleRoute);
     document.addEventListener("click", handleGlobalClick);
-
     return () => {
-      window.removeEventListener("popstate", handleRoute);
-      window.removeEventListener("hashchange", handleRoute);
       document.removeEventListener("click", handleGlobalClick);
     };
   }, []);

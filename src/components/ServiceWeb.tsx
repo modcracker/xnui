@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowRight, Code, Cpu, ExternalLink, HardDrive, Layout, RefreshCw, Sparkles, Terminal, ChevronRight, Activity } from "lucide-react";
+import Breadcrumbs from "./Breadcrumbs";
 
 export default function ServiceWeb() {
   const customEase = [0.19, 1, 0.22, 1] as const;
@@ -28,13 +29,9 @@ export default function ServiceWeb() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs font-mono text-black/45 mb-8">
-          <a href="/" className="hover:text-black transition-colors">xnui</a>
-          <span>&middot;</span>
-          <a href="/services" className="hover:text-black transition-colors">Services</a>
-          <span>&middot;</span>
-          <span className="text-[#0070f3] font-semibold">Web Mechanics</span>
-        </div>
+        <div className="mb-8">
+          <Breadcrumbs />
+         </div>
 
         {/* Hero Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-24">

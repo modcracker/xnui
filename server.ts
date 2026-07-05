@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import { Resend } from "resend";
 import dotenv from "dotenv";
 import fs from "fs";
@@ -10,157 +9,156 @@ dotenv.config();
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
-async function startServer() {
-  const app = express();
-  const PORT = 3000;
+const app = express();
+const PORT = 3000;
 
-  app.use(express.json());
+app.use(express.json());
 
-  // API Route for Contact Form
-  app.post("/api/contact", async (req, res) => {
-    const { name, email, message } = req.body;
+// API Route for Contact Form
+app.post("/api/contact", async (req, res) => {
+  const { name, email, message } = req.body;
 
-    if (!name || !email || !message) {
-      return res.status(400).json({ error: "Missing required fields" });
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  console.log("Contact form submission attempt:", { name, email, message });
+
+  if (!process.env.RESEND_API_KEY) {
+    console.warn("RESEND_API_KEY is not set. Skipping email sending.");
+    return res.status(503).json({ 
+      error: "Contact service not configured.", 
+      details: "Please set RESEND_API_KEY in the application settings." 
+    });
+  }
+
+  const resendClient = new Resend(process.env.RESEND_API_KEY);
+
+  try {
+    console.log("Attempting to send email via Resend to 718gal@gmail.com...");
+    const { data, error } = await resendClient.emails.send({
+      from: "onboarding@resend.dev",
+      to: "718gal@gmail.com",
+      subject: `New Inquiry from tactile.studio: ${name}`,
+      html: `
+        <h1>New Lead from tactile.studio</h1>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `,
+    });
+
+    if (error) {
+      console.error("Resend API Error details:", JSON.stringify(error, null, 2));
+      return res.status(500).json({ error: error.message || "Failed to send email via Resend" });
     }
 
-    console.log("Contact form submission attempt:", { name, email, message });
+    console.log("Email sent successfully:", data);
+    res.json({ success: true, data });
+  } catch (err) {
+    console.error("Critical error in /api/contact:", err);
+    res.status(500).json({ error: "Internal server error: " + (err instanceof Error ? err.message : String(err)) });
+  }
+});
 
-    if (!process.env.RESEND_API_KEY) {
-      console.warn("RESEND_API_KEY is not set. Skipping email sending.");
-      return res.status(503).json({ 
-        error: "Contact service not configured.", 
-        details: "Please set RESEND_API_KEY in the application settings." 
-      });
-    }
+// Dynamic Sitemap Endpoints
+const getSitemapPaths = () => {
+  const paths = [
+    { path: "/", lastmod: "2026-06-13", changefreq: "daily", priority: "1.0" },
+    { path: "/services", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
+    { path: "/laboratory", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
+    { path: "/about", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+    { path: "/partnership", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+    { path: "/faq", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.7" },
+    { path: "/contact", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
+    { path: "/privacy", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
+    { path: "/terms", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
+    { path: "/services/ux-design", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/services/brand-strategy", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/services/web-mechanics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/landing/enterprise-ux", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/funnel/audit-request", lastmod: "2026-07-02", changefreq: "daily", priority: "0.9" },
+    { path: "/glossary", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.9" },
+    { path: "/services/ux-design/cognitive-friction", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/services/ux-design/tactile-haptics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/services/brand-strategy/typographic-geometry", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/services/brand-strategy/chromatic-math", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/services/web-mechanics/elastic-physics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+    { path: "/services/web-mechanics/layout-stability", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
+  ];
 
-    const resendClient = new Resend(process.env.RESEND_API_KEY);
+  // 1. Cognitive Friction Leaf Nodes (8000 items)
+  for (let i = 1; i <= 8000; i++) {
+    paths.push({
+      path: `/services/ux-design/cognitive-friction/metric-coordinate-${i}`,
+      lastmod: "2026-07-04",
+      changefreq: "weekly",
+      priority: "0.6"
+    });
+  }
 
-    try {
-      console.log("Attempting to send email via Resend to 718gal@gmail.com...");
-      const { data, error } = await resendClient.emails.send({
-        from: "onboarding@resend.dev",
-        to: "718gal@gmail.com",
-        subject: `New Inquiry from tactile.studio: ${name}`,
-        html: `
-          <h1>New Lead from tactile.studio</h1>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message}</p>
-        `,
-      });
+  // 2. Tactile Haptic Leaf Nodes (8000 items)
+  for (let i = 1; i <= 8000; i++) {
+    paths.push({
+      path: `/services/ux-design/tactile-haptics/damper-coefficient-${i}`,
+      lastmod: "2026-07-04",
+      changefreq: "weekly",
+      priority: "0.6"
+    });
+  }
 
-      if (error) {
-        console.error("Resend API Error details:", JSON.stringify(error, null, 2));
-        return res.status(500).json({ error: error.message || "Failed to send email via Resend" });
-      }
+  // 3. Typographic Geometry Leaf Nodes (8000 items)
+  for (let i = 1; i <= 8000; i++) {
+    paths.push({
+      path: `/services/brand-strategy/typographic-geometry/golden-scale-step-${i}`,
+      lastmod: "2026-07-04",
+      changefreq: "weekly",
+      priority: "0.6"
+    });
+  }
 
-      console.log("Email sent successfully:", data);
-      res.json({ success: true, data });
-    } catch (err) {
-      console.error("Critical error in /api/contact:", err);
-      res.status(500).json({ error: "Internal server error: " + (err instanceof Error ? err.message : String(err)) });
-    }
-  });
+  // 4. Chromatic Math Leaf Nodes (8000 items)
+  for (let i = 1; i <= 8000; i++) {
+    paths.push({
+      path: `/services/brand-strategy/chromatic-math/perceptual-apca-token-${i}`,
+      lastmod: "2026-07-04",
+      changefreq: "weekly",
+      priority: "0.6"
+    });
+  }
 
-  // Dynamic Sitemap Endpoints
-  const getSitemapPaths = () => {
-    const paths = [
-      { path: "/", lastmod: "2026-06-13", changefreq: "daily", priority: "1.0" },
-      { path: "/services", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
-      { path: "/laboratory", lastmod: "2026-06-13", changefreq: "weekly", priority: "0.9" },
-      { path: "/about", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
-      { path: "/partnership", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
-      { path: "/faq", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.7" },
-      { path: "/contact", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.8" },
-      { path: "/privacy", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
-      { path: "/terms", lastmod: "2026-06-13", changefreq: "monthly", priority: "0.5" },
-      { path: "/services/ux-design", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/services/brand-strategy", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/services/web-mechanics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/landing/enterprise-ux", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/funnel/audit-request", lastmod: "2026-07-02", changefreq: "daily", priority: "0.9" },
-      { path: "/glossary", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.9" },
-      { path: "/services/ux-design/cognitive-friction", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/services/ux-design/tactile-haptics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/services/brand-strategy/typographic-geometry", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/services/brand-strategy/chromatic-math", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/services/web-mechanics/elastic-physics", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-      { path: "/services/web-mechanics/layout-stability", lastmod: "2026-07-02", changefreq: "weekly", priority: "0.8" },
-    ];
+  // 5. Elastic Motion Leaf Nodes (8000 items)
+  for (let i = 1; i <= 8000; i++) {
+    paths.push({
+      path: `/services/web-mechanics/elastic-physics/verlet-particle-${i}`,
+      lastmod: "2026-07-04",
+      changefreq: "weekly",
+      priority: "0.6"
+    });
+  }
 
-    // 1. Cognitive Friction Leaf Nodes (3500 items)
-    for (let i = 1; i <= 3500; i++) {
-      paths.push({
-        path: `/services/ux-design/cognitive-friction/metric-coordinate-${i}`,
-        lastmod: "2026-07-04",
-        changefreq: "weekly",
-        priority: "0.6"
-      });
-    }
+  // 6. Zero Layout Shift Leaf Nodes (8000 items)
+  for (let i = 1; i <= 8000; i++) {
+    paths.push({
+      path: `/services/web-mechanics/layout-stability/cumulative-shift-frame-${i}`,
+      lastmod: "2026-07-04",
+      changefreq: "weekly",
+      priority: "0.6"
+    });
+  }
 
-    // 2. Tactile Haptic Leaf Nodes (3500 items)
-    for (let i = 1; i <= 3500; i++) {
-      paths.push({
-        path: `/services/ux-design/tactile-haptics/damper-coefficient-${i}`,
-        lastmod: "2026-07-04",
-        changefreq: "weekly",
-        priority: "0.6"
-      });
-    }
+  return paths;
+};
 
-    // 3. Typographic Geometry Leaf Nodes (3500 items)
-    for (let i = 1; i <= 3500; i++) {
-      paths.push({
-        path: `/services/brand-strategy/typographic-geometry/golden-scale-step-${i}`,
-        lastmod: "2026-07-04",
-        changefreq: "weekly",
-        priority: "0.6"
-      });
-    }
+app.get("/sitemap.xml", (req, res) => {
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+  const host = req.get("host") || "localhost:3000";
+  const origin = `${protocol}://${host}`;
+  const paths = getSitemapPaths();
 
-    // 4. Chromatic Math Leaf Nodes (3500 items)
-    for (let i = 1; i <= 3500; i++) {
-      paths.push({
-        path: `/services/brand-strategy/chromatic-math/perceptual-apca-token-${i}`,
-        lastmod: "2026-07-04",
-        changefreq: "weekly",
-        priority: "0.6"
-      });
-    }
-
-    // 5. Elastic Motion Leaf Nodes (3500 items)
-    for (let i = 1; i <= 3500; i++) {
-      paths.push({
-        path: `/services/web-mechanics/elastic-physics/verlet-particle-${i}`,
-        lastmod: "2026-07-04",
-        changefreq: "weekly",
-        priority: "0.6"
-      });
-    }
-
-    // 6. Zero Layout Shift Leaf Nodes (3500 items)
-    for (let i = 1; i <= 3500; i++) {
-      paths.push({
-        path: `/services/web-mechanics/layout-stability/cumulative-shift-frame-${i}`,
-        lastmod: "2026-07-04",
-        changefreq: "weekly",
-        priority: "0.6"
-      });
-    }
-
-    return paths;
-  };
-
-  app.get("/sitemap.xml", (req, res) => {
-    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
-    const host = req.get("host") || "localhost:3000";
-    const origin = `${protocol}://${host}`;
-    const paths = getSitemapPaths();
-
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated dynamically by xnui Studio. Full architecture consists of 1,071 active crawled paths. -->
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated dynamically by xnui Studio. Full architecture consists of 48,021 active crawled paths. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths.map(node => `  <url>
     <loc>${node.path === "/" ? origin : `${origin}${node.path}`}</loc>
@@ -170,57 +168,59 @@ ${paths.map(node => `  <url>
   </url>`).join("\n")}
 </urlset>`;
 
-    res.header("Content-Type", "application/xml");
-    res.send(xml);
+  res.header("Content-Type", "application/xml");
+  res.send(xml);
+});
+
+app.get("/sitemap.json", (req, res) => {
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+  const host = req.get("host") || "localhost:3000";
+  const origin = `${protocol}://${host}`;
+  const paths = getSitemapPaths();
+
+  res.json({
+    origin,
+    timestamp: new Date().toISOString(),
+    nodes: paths.map(node => ({
+      url: node.path === "/" ? origin : `${origin}${node.path}`,
+      lastmod: node.lastmod,
+      changefreq: node.changefreq,
+      priority: parseFloat(node.priority)
+    }))
   });
+});
 
-  app.get("/sitemap.json", (req, res) => {
-    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
-    const host = req.get("host") || "localhost:3000";
-    const origin = `${protocol}://${host}`;
-    const paths = getSitemapPaths();
+app.get("/sitemap.txt", (req, res) => {
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+  const host = req.get("host") || "localhost:3000";
+  const origin = `${protocol}://${host}`;
+  const paths = getSitemapPaths();
+  const txt = paths.map(node => node.path === "/" ? origin : `${origin}${node.path}`).join("\n");
 
-    res.json({
-      origin,
-      timestamp: new Date().toISOString(),
-      nodes: paths.map(node => ({
-        url: node.path === "/" ? origin : `${origin}${node.path}`,
-        lastmod: node.lastmod,
-        changefreq: node.changefreq,
-        priority: parseFloat(node.priority)
-      }))
-    });
-  });
+  res.header("Content-Type", "text/plain");
+  res.send(txt);
+});
 
-  app.get("/sitemap.txt", (req, res) => {
-    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
-    const host = req.get("host") || "localhost:3000";
-    const origin = `${protocol}://${host}`;
-    const paths = getSitemapPaths();
-    const txt = paths.map(node => node.path === "/" ? origin : `${origin}${node.path}`).join("\n");
+// Robots.txt directing crawlers to dynamic sitemap
+app.get("/robots.txt", (req, res) => {
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+  const host = req.get("host") || "localhost:3000";
+  const origin = `${protocol}://${host}`;
 
-    res.header("Content-Type", "text/plain");
-    res.send(txt);
-  });
-
-  // Robots.txt directing crawlers to dynamic sitemap
-  app.get("/robots.txt", (req, res) => {
-    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
-    const host = req.get("host") || "localhost:3000";
-    const origin = `${protocol}://${host}`;
-
-    const txt = `User-agent: *
+  const txt = `User-agent: *
 Allow: /
 Disallow: /api/
 
 Sitemap: ${origin}/sitemap.xml`;
 
-    res.header("Content-Type", "text/plain");
-    res.send(txt);
-  });
+  res.header("Content-Type", "text/plain");
+  res.send(txt);
+});
 
+async function initializeApp() {
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -331,6 +331,78 @@ Sitemap: ${origin}/sitemap.xml`;
           "name": "Interactive UI/UX & User Interaction Glossary",
           "url": "https://xnui.com/glossary",
           "description": "A comprehensive reference index of modern user interface components, user interaction physics, layout shift parameters, and adaptive AI design tokens."
+        }
+      },
+      "/partnership": {
+        title: "Strategic Design Partnerships & UX Alliances | xnui Studio",
+        desc: "Collaborate with senior designer Sofia Varian. Discover bespoke brand scaling ecosystems, spatial engineering alignment, and joint design-to-development sprints.",
+        canonical: "/partnership",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Strategic Design Partnerships & UX Alliances",
+          "url": "https://xnui.com/partnership",
+          "description": "Collaborate with senior designer Sofia Varian on premium design systems, high-fidelity prototypes, and tactile UI/UX development sprints."
+        }
+      },
+      "/about": {
+        title: "About xnui Studio & Sofia Varian | Boutique Visual Design",
+        desc: "Meet Sofia Varian, principal designer at xnui. Learn about our spatial typography grid layouts, responsive interaction physics, and premium digital craft.",
+        canonical: "/about",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "name": "About xnui Studio & Sofia Varian",
+          "url": "https://xnui.com/about",
+          "description": "Learn about the boutique digital design systems and tactical interface engineering philosophy at xnui led by Sofia Varian."
+        }
+      },
+      "/faq": {
+        title: "Frequently Asked Questions | xnui Studio Design FAQ",
+        desc: "Inquiries answered regarding custom design sprints, APCA contrast validation, Core Web Vital speed optimization, and our handoff methodology.",
+        canonical: "/faq",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "name": "Frequently Asked Questions",
+          "url": "https://xnui.com/faq",
+          "description": "Common inquiries answered regarding bespoke design systems, layout calibration, and technical front-end handoff."
+        }
+      },
+      "/contact": {
+        title: "Inquire & Start a Custom Design Sprint | xnui Studio",
+        desc: "Initiate contact with principal designer Sofia Varian. Schedule strategic visual layout sprints, brand systems consulting, or deep usability audits.",
+        canonical: "/contact",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Inquire & Start a Custom Design Sprint",
+          "url": "https://xnui.com/contact",
+          "description": "Get in touch with Sofia Varian to commission premium design systems, custom typography grids, or deep UX audits."
+        }
+      },
+      "/privacy": {
+        title: "Privacy Policy | xnui Studio Data Compliance",
+        desc: "Data handling and user transparency guidelines for xnui digital interactive experiences and custom visual studio products.",
+        canonical: "/privacy",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Privacy Policy",
+          "url": "https://xnui.com/privacy",
+          "description": "Privacy compliance policy specifying user data transparency parameters at xnui."
+        }
+      },
+      "/terms": {
+        title: "Terms of Service & Licensing Agreements | xnui Studio",
+        desc: "Operational frameworks, typographic asset licensing, and design sprint terms for clients and strategic studio partnerships.",
+        canonical: "/terms",
+        schema: {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Terms of Service & Licensing Agreements",
+          "url": "https://xnui.com/terms",
+          "description": "Operational terms and intellectual property licenses for custom design deliverables."
         }
       }
     };
@@ -505,9 +577,14 @@ Sitemap: ${origin}/sitemap.xml`;
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  // Only start listening when not running on Vercel
+  if (!process.env.VERCEL) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  }
 }
 
-startServer();
+initializeApp();
+
+export default app;
