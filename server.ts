@@ -3,9 +3,35 @@ import path from "path";
 import { Resend } from "resend";
 import dotenv from "dotenv";
 import fs from "fs";
+import { fileURLToPath } from "url";
 import { generateDynamicSEOContent } from "./src/lib/seoGenerator";
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const getDistPath = () => {
+  const pathsToTry = [
+    path.join(process.cwd(), "dist"),
+    path.join(__dirname, "dist"),
+    path.join(__dirname, "..", "dist"),
+    path.resolve("./dist"),
+    path.resolve("../dist")
+  ];
+  
+  for (const p of pathsToTry) {
+    if (fs.existsSync(path.join(p, "index.html"))) {
+      console.log("Found dist folder at:", p);
+      return p;
+    }
+  }
+  
+  console.error("Could not find dist folder in any of the attempted paths:", pathsToTry);
+  return path.join(process.cwd(), "dist"); // Fallback
+};
+
+const distPath = getDistPath();
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -217,18 +243,33 @@ Sitemap: ${origin}/sitemap.xml`;
   res.send(txt);
 });
 
-async function initializeApp() {
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
-    const { createServer: createViteServer } = await import("vite");
-    const vite = await createViteServer({
+// Vite middleware for development (lazy loaded)
+let viteDevServer: any = null;
+if (process.env.NODE_ENV !== "production") {
+  import("vite").then(({ createServer }) => {
+    createServer({
       server: { middlewareMode: true },
-      appType: "spa",
+      appType: "spa"
+    }).then(vite => {
+      viteDevServer = vite;
     });
-    app.use(vite.middlewares);
+  }).catch(err => {
+    console.error("Failed to load Vite dev server:", err);
+  });
+}
+
+// Delegate to Vite dev server in development
+app.use((req, res, next) => {
+  if (viteDevServer) {
+    viteDevServer.middlewares(req, res, next);
   } else {
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+    next();
+  }
+});
+
+// In production, serve built static files and inject SEO tags
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(distPath));
 
     const seoData: Record<string, { title: string; desc: string; canonical: string; schema: any }> = {
       "/": {
@@ -411,8 +452,14 @@ async function initializeApp() {
 
     app.get("*", (req, res) => {
       try {
+        const indexPath = path.join(distPath, "index.html");
         if (!cachedIndexHtml) {
-          cachedIndexHtml = fs.readFileSync(path.join(distPath, "index.html"), "utf-8");
+          if (fs.existsSync(indexPath)) {
+            cachedIndexHtml = fs.readFileSync(indexPath, "utf-8");
+          } else {
+            console.error("index.html not found at:", indexPath);
+            return res.status(500).send("Application Build Error: dist/index.html is missing.");
+          }
         }
 
         const activePath = req.path;
@@ -572,7 +619,12 @@ async function initializeApp() {
         res.send(finalHtml);
       } catch (err) {
         console.error("Failed to inject meta tags into index.html:", err);
-        res.sendFile(path.join(distPath, "index.html"));
+        const indexPath = path.join(distPath, "index.html");
+        if (fs.existsSync(indexPath)) {
+          res.sendFile(indexPath);
+        } else {
+          res.status(500).send("Failed to inject SEO tags and dist/index.html is missing.");
+        }
       }
     });
   }
@@ -583,8 +635,5 @@ async function initializeApp() {
       console.log(`Server running on http://localhost:${PORT}`);
     });
   }
-}
-
-initializeApp();
 
 export default app;
