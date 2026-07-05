@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/server.cjs",
+      "src": "server.ts",
       "use": "@vercel/node",
       "config": {
         "includeFiles": [
@@ -21,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "dist/server.cjs"
+      "dest": "server.ts"
     }
   ]
 }

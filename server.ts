@@ -243,10 +243,11 @@ Sitemap: ${origin}/sitemap.xml`;
   res.send(txt);
 });
 
-// Vite middleware for development (lazy loaded)
+// Vite middleware for development (lazy loaded using dynamic expression to prevent Vercel bundle analysis)
 let viteDevServer: any = null;
 if (process.env.NODE_ENV !== "production") {
-  import("vite").then(({ createServer }) => {
+  const viteModule = "vite";
+  import(viteModule).then(({ createServer }) => {
     createServer({
       server: { middlewareMode: true },
       appType: "spa"
