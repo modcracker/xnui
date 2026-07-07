@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowRight, CheckCircle, Cpu, ShieldCheck, Star, Users, Zap } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 export default function LandingEnterprise() {
   const customEase = [0.19, 1, 0.22, 1] as const;
@@ -255,6 +256,9 @@ export default function LandingEnterprise() {
             </a>
           </div>
         </div>
+
+        {/* Dynamic enterprise landing network backlinks */}
+        <PageBacklinks pageId="landing-enterprise" />
 
       </div>
     </div>

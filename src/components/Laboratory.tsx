@@ -1,6 +1,7 @@
 import { useRef, useState, MouseEvent, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight, Beaker, Layers, Eye } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 // @ts-ignore
 import artIndustrial from "../assets/images/art_industrial_mechanics_1781396069282.jpg";
@@ -402,6 +403,9 @@ export default function Laboratory() {
             </span>
           </div>
         </div>
+
+        {/* Dynamic design laboratory network backlinks */}
+        <PageBacklinks pageId="laboratory" />
 
       </div>
     </section>

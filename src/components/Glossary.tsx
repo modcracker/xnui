@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import PageBacklinks from "./PageBacklinks";
 import { 
   Search, BookOpen, Sparkles, Sliders, Layers, 
   Activity, ArrowRight, ShieldAlert, Cpu, Eye, Code, Zap
@@ -542,6 +543,9 @@ export default function Glossary() {
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
+
+        {/* Dynamic educational glossary indexing backlinks */}
+        <PageBacklinks pageId="glossary" />
 
       </div>
     </div>

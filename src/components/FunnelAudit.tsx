@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, Check, ChevronRight, ClipboardCheck, Code, Globe, HelpCircle, Laptop, RefreshCw, Send, Sparkles, AlertCircle } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 export default function FunnelAudit() {
   const [step, setStep] = useState(1);
@@ -417,6 +418,9 @@ export default function FunnelAudit() {
           </AnimatePresence>
 
         </div>
+
+        {/* Dynamic conversion funnel network backlinks */}
+        <PageBacklinks pageId="funnel-audit" />
 
       </div>
     </div>

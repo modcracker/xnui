@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { generateDynamicSEOContent } from "../lib/seoGenerator";
 import Breadcrumbs from "./Breadcrumbs";
+import PageBacklinks from "./PageBacklinks";
 import { 
   Zap, 
   ArrowLeft, 
@@ -1304,6 +1305,9 @@ export default function ServiceDeepDive({ subPageId }: { subPageId: string }) {
             </a>
           </div>
         </div>
+
+        {/* Subtly embedded thematic backlinks for SEO authority mapping */}
+        <PageBacklinks pageId={isLeaf ? `${leafType}-leaf` : page.id} itemIndex={isLeaf ? parseInt(leafId) : undefined} />
 
       </div>
 

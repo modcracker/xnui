@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "motion/react";
+import PageBacklinks from "./PageBacklinks";
 import { 
   FileCode, 
   MapPin, 
@@ -1028,6 +1029,10 @@ ${fullSitemapData.map(node => `  <url>
         </div>
 
       </div>
+
+      {/* Dynamic index crawler backlink mapping directory */}
+      <PageBacklinks pageId="sitemap" />
+
     </div>
   );
 }

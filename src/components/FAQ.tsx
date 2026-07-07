@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MessageSquare, Cpu, Terminal, ArrowDownRight } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 // @ts-ignore
 import artObsidian from "../assets/images/art_obsidian_tactile_1781396100697.jpg";
@@ -261,6 +262,9 @@ export default function FAQ() {
           </div>
 
         </div>
+
+        {/* Dynamic network knowledge backlink coordinates */}
+        <PageBacklinks pageId="faq" />
 
       </div>
     </section>

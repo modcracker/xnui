@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Cpu, Activity, Shield, Zap } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 // @ts-ignore
 import artLiquid from "../assets/images/art_liquid_glass_1781396083999.jpg";
@@ -402,6 +403,9 @@ export default function Services() {
             </div>
           </div>
         </div>
+
+        {/* Dynamic services overview directory backlinks */}
+        <PageBacklinks pageId="services" />
 
       </div>
     </section>

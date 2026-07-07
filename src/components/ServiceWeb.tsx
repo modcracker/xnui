@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight, Code, Cpu, ExternalLink, HardDrive, Layout, RefreshCw, Sparkles, Terminal, ChevronRight, Activity } from "lucide-react";
 import Breadcrumbs from "./Breadcrumbs";
+import PageBacklinks from "./PageBacklinks";
 
 export default function ServiceWeb() {
   const customEase = [0.19, 1, 0.22, 1] as const;
@@ -273,6 +274,9 @@ export default function ServiceWeb() {
             Request Instant Usability Audit
           </a>
         </div>
+
+        {/* Dynamic web service network backlinks */}
+        <PageBacklinks pageId="services-web" />
 
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { FileText, Award, RefreshCw, AlertCircle } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 export default function Terms() {
   const lastUpdated = "June 13, 2026";
@@ -66,6 +67,9 @@ export default function Terms() {
             </p>
           </div>
         </div>
+
+        {/* Dynamic legal & terms of service network backlinks */}
+        <PageBacklinks pageId="terms" />
 
       </div>
     </div>

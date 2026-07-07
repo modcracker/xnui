@@ -6,6 +6,7 @@ import founderPortrait from "../assets/images/founder_portrait_1781393543128.jpg
 import artObsidian from "../assets/images/art_obsidian_tactile_1781396100697.jpg";
 // @ts-ignore
 import artIndustrial from "../assets/images/art_industrial_mechanics_1781396069282.jpg";
+import PageBacklinks from "./PageBacklinks";
 
 export default function About() {
   const customEase = [0.19, 1, 0.22, 1] as const;
@@ -260,6 +261,9 @@ export default function About() {
             </div>
           </div>
         </div>
+
+        {/* Dynamic organic coordinate backlinks for SEO profile */}
+        <PageBacklinks pageId="about" />
 
       </div>
     </div>

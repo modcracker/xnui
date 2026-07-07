@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight, Compass, Eye, Feather, Layers, Palette, Sparkles, Star, ChevronRight, Grid } from "lucide-react";
 import Breadcrumbs from "./Breadcrumbs";
+import PageBacklinks from "./PageBacklinks";
 
 export default function ServiceBrand() {
   const customEase = [0.19, 1, 0.22, 1] as const;
@@ -331,6 +332,9 @@ export default function ServiceBrand() {
             Initiate Alignment Consultation
           </a>
         </div>
+
+        {/* Dynamic brand service network backlinks */}
+        <PageBacklinks pageId="services-brand" />
 
       </div>
     </div>

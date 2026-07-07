@@ -1,4 +1,5 @@
 import { Shield, Eye, Lock, RefreshCw } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 export default function Privacy() {
   const lastUpdated = "June 13, 2026";
@@ -67,6 +68,9 @@ export default function Privacy() {
             </p>
           </div>
         </div>
+
+        {/* Dynamic legal & privacy network backlinks */}
+        <PageBacklinks pageId="privacy" />
 
       </div>
     </div>

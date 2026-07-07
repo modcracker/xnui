@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Check, Copy, RefreshCw, ArrowLeft, Mail, ShieldCheck, HelpCircle } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 // @ts-ignore
 import artBlueprint from "../assets/images/art_parametric_blueprint_1781396116015.jpg";
@@ -244,6 +245,10 @@ export default function Contact() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Dynamic network gateway backlink coordinates */}
+        <PageBacklinks pageId="contact" />
+
       </div>
     </div>
   );

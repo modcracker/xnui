@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight, Eye, Layers, Monitor, Shuffle, Sliders, Sparkles, Zap, ChevronRight, Target } from "lucide-react";
 import Breadcrumbs from "./Breadcrumbs";
+import PageBacklinks from "./PageBacklinks";
 
 export default function ServiceUX() {
   const customEase = [0.19, 1, 0.22, 1] as const;
@@ -420,6 +421,9 @@ export default function ServiceUX() {
             Schedule Free 15-Min Consultation
           </a>
         </div>
+
+        {/* Dynamic UX service network backlinks */}
+        <PageBacklinks pageId="services-ux" />
 
       </div>
     </div>

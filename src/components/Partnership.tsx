@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowLeft, ExternalLink, BadgeCheck, ShieldAlert, Sparkles, Layers, Cpu } from "lucide-react";
+import PageBacklinks from "./PageBacklinks";
 
 // @ts-ignore
 import artBlueprint from "../assets/images/art_parametric_blueprint_1781396116015.jpg";
@@ -180,6 +181,9 @@ export default function Partnership() {
               </div>
             </a>
           </motion.div>
+
+          {/* Subtly embedded partner registry backlink coordinates */}
+          <PageBacklinks pageId="partnership" />
 
         </motion.div>
       </div>
